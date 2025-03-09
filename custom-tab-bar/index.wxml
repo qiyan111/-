@@ -1,0 +1,14 @@
+<view class="tab-bar">
+  <view class="tab-bar-border"></view>
+  <view wx:for="{{list}}" wx:key="index" class="tab-bar-item {{index === 2 ? 'door-tab' : ''}}" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
+    <block wx:if="{{index === 2}}">
+      <view class="door-circle">
+        <image class="door-icon" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image>
+      </view>
+    </block>
+    <block wx:else>
+      <image class="tab-icon" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image>
+    </block>
+    <view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
+  </view>
+</view> 

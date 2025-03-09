@@ -1,0 +1,62 @@
+page {
+  background-color: #f6f6f6;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+}
+
+.status-bar {
+  height: 44px; /* 状态栏高度 */
+}
+
+.header {
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.message-list {
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+.message-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 6rpx;
+  background-color: #eee;
+  margin-right: 20rpx;
+}
+
+.message-content {
+  flex: 1;
+}
+
+.message-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.message-desc {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.message-time {
+  font-size: 24rpx;
+  color: #bbb;
+} 

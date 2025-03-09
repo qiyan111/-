@@ -1,0 +1,79 @@
+<view class="page">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar"></view>
+  
+  <!-- 顶部标题 -->
+  <view class="header">
+    <text class="title">我的</text>
+  </view>
+  
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-info">
+      <view class="user-avatar"></view>
+      <view class="user-detail">
+      
+        <view class="user-name">用户名称</view>
+        <view class="user-id">ID: XXXXXXXXX</view>
+      </view>
+    </view>
+    <image class="card-arrow" src="/images/arrow_right0.png"></image>
+  </view>
+  
+  <!-- 功能列表 -->
+  <view class="function-list">
+    <!-- 缴费记录 -->
+    <view class="function-item">
+      <view class="function-left">
+        <image class="function-icon" src="/images/my/record.png"></image>
+        <text class="function-name">缴费记录</text>
+      </view>
+        <image class="card-arrow" src="/images/arrow_right.png"></image>
+    </view>
+
+    <!-- 住户认证 -->
+    <view class="function-item">
+      <view class="function-left">
+        <image class="function-icon" src="/images/my/verify.png"></image>
+        <text class="function-name">住户认证</text>
+      </view>
+       <image class="card-arrow" src="/images/arrow_right.png"></image>
+    </view>
+
+    <!-- 我的车辆 -->
+    <view class="function-item">
+      <view class="function-left">
+        <image class="function-icon" src="/images/my/car.png"></image>
+        <text class="function-name">我的车辆</text>
+      </view>
+        <image class="card-arrow" src="/images/arrow_right.png"></image>
+    </view>
+
+    <!-- 邀请邻居 -->
+    <view class="function-item">
+      <view class="function-left">
+        <image class="function-icon" src="/images/my/neighbor.png"></image>
+        <text class="function-name">邀请邻居</text>
+      </view>
+      <image class="item-arrow" src="/images/arrow_right.png"></image>
+    </view>
+
+    <!-- 我的家属 -->
+    <view class="function-item">
+      <view class="function-left">
+        <image class="function-icon" src="/images/my/family.png"></image>
+        <text class="function-name">我的家属</text>
+      </view>
+      <image class="item-arrow" src="/images/arrow_right.png"></image>
+    </view>
+
+    <!-- 设置 -->
+    <view class="function-item">
+      <view class="function-left">
+        <image class="function-icon" src="/images/my/settings.png"></image>
+        <text class="function-name">设置</text>
+      </view>
+      <image class="item-arrow" src="/images/arrow_right.png"></image>
+    </view>
+  </view>
+</view> 

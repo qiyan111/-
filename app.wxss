@@ -1,0 +1,42 @@
+/**app.wxss**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+
+/* 全局样式 */
+.tab-bar-item.special {
+  position: relative;
+}
+
+.tab-bar-item.special::before {
+  content: "";
+  position: absolute;
+  top: -40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #1989fa;
+  border-radius: 50%;
+  z-index: -1;
+  box-shadow: 0 4rpx 8rpx rgba(25, 137, 250, 0.3);
+}
+
+.tab-bar-item.special image {
+  position: relative;
+  top: -30rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.tab-bar-item.special text {
+  position: relative;
+  top: -20rpx;
+  color: white;
+} 

@@ -1,0 +1,42 @@
+page {
+  background-color: #f6f6f6;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+}
+
+.status-bar {
+  height: 44px; /* 状态栏高度 */
+}
+
+.header {
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.door-button {
+  width: 200rpx;
+  height: 200rpx;
+  background-color: #1890ff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 32rpx;
+  box-shadow: 0 6rpx 20rpx rgba(24, 144, 255, 0.3);
+} 

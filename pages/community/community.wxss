@@ -1,0 +1,140 @@
+/* 页面容器 */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f6f6f6;
+}
+
+/* 顶部状态栏 */
+.status-bar {
+  height: 44px;
+}
+
+/* 顶部标题 */
+.header {
+  padding: 10rpx 30rpx;
+  background-color: #fff;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 内容区域 */
+.content {
+  flex: 1;
+  padding: 30rpx;
+}
+
+/* 区块标题 */
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  display: block;
+}
+
+/* 活动卡片网格 */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 180rpx 180rpx;
+  gap: 20rpx;
+  padding: 0 30rpx;
+}
+
+/* 活动卡片基础样式 */
+.activity-card {
+  position: relative;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 第三个卡片（我的预约）占满宽度 */
+.activity-card:nth-child(3) {
+  grid-column: 1 / -1; /* 跨越所有列 */
+}
+
+/* 卡片背景图 */
+.card-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  z-index: 0;
+  transform: rotate(-15deg) translate(0, -50%);
+  opacity: 0.8;
+}
+
+/* 卡片内容 */
+.card-content {
+  position: relative;
+  z-index: 1;
+  padding: 30rpx;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 卡片标题 */
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+/* 卡片副标题 */
+.card-subtitle {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.placeholder-text {
+  font-size: 16px;
+  color: #999;
+}
+
+/* 棋牌室预约卡片 */
+.activity-card:nth-child(1) {
+  background-color: #e1f5fe;
+}
+.activity-card:nth-child(1) .card-bg {
+  content: '';
+  background-image: url('/images/chess_pattern.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+/* 组团约局卡片 */
+.activity-card:nth-child(2) {
+  background-color: #fff8e1;
+}
+.activity-card:nth-child(2) .card-bg {
+  content: '';
+  background-image: url('/images/group_pattern.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+/* 我的预约卡片 */
+.activity-card:nth-child(3) {
+  background-color: #fce4ec;
+}
+.activity-card:nth-child(3) .card-bg {
+  content: '';
+  background-image: url('/images/booking_pattern.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
+} 

@@ -1,0 +1,119 @@
+<!--index.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 首页内容 -->
+    <view class="page-content" wx:if="{{currentTab === 0}}">
+      <!-- 顶部区域 -->
+      <view class="header">
+        <!-- 背景图片 -->
+        <image class="header-bg" src="/images/header_bg.png" mode="aspectFill"></image>
+        
+        <view class="status-bar"></view>
+        
+        <!-- 左上角通知 -->
+        <view class="notification">
+          <image class="notification-icon" src="/images/notification.png"></image>
+          <text class="notification-text">您有一条新的消息提醒...</text>
+        </view>
+        
+        <!-- 标题 -->
+        <view class="welcome-title">e家畅行</view>
+        
+        <!-- 地址信息 -->
+        <view class="address-bar">
+          <image class="address-icon" src="/images/location.png"></image>
+          <text class="address-text">{{address || "住址信息信息信息信息......"}}</text>
+        </view>
+        
+  
+        <!-- 背景大E -->
+        <view class="background-e">e</view>
+      </view>
+      
+      <!-- 功能区域 -->
+      <view class="function-area">
+        <view class="function-list">
+          <!-- 门禁控制 -->
+          <view class="function-item" bindtap="tapFunction" data-id="door">
+            <view class="function-icon" style="background-color: #9E7EEF;">
+              <image src="/images/door.png"></image>
+            </view>
+            <text class="function-name">门禁控制</text>
+          </view>
+          
+          <!-- 访客通行 -->
+          <view class="function-item" bindtap="tapFunction" data-id="visitor">
+            <view class="function-icon" style="background-color: #66A6FF;">
+              <image src="/images/visitor.png"></image>
+            </view>
+            <text class="function-name">访客通行</text>
+          </view>
+          
+          <!-- 报事维修 -->
+          <view class="function-item" bindtap="tapFunction" data-id="repair">
+            <view class="function-icon" style="background-color: #5ECFC7;">
+              <image src="/images/repair.png"></image>
+            </view>
+            <text class="function-name">报事维修</text>
+          </view>
+          
+          <!-- 车位查询 -->
+          <view class="function-item" bindtap="tapFunction" data-id="parking">
+            <view class="function-icon" style="background-color: #FF914D;">
+              <image src="/images/parking.png"></image>
+            </view>
+            <text class="function-name">车位查询</text>
+          </view>
+          
+          <!-- 生活缴费 -->
+          <view class="function-item" bindtap="tapFunction" data-id="payment">
+            <view class="function-icon" style="background-color: #5DD693;">
+              <image src="/images/payment.png"></image>
+            </view>
+            <text class="function-name">生活缴费</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 通知区域 -->
+      <view class="notice-area">
+        <image class="notice-bg" src="/images/notice_bg.png" mode="aspectFill"></image>
+        <view class="notice-item">
+          <view class="notice-left">
+            <image class="notice-icon" src="/images/notice_blue.png"></image>
+            <text class="notice-title">物业通知:</text>
+            <text class="notice-content">信息信息信息信息信息......</text>
+          </view>
+          <text class="notice-date">YYYY.MM.DD</text>
+        </view>
+      </view>
+      
+      <!-- 主页内容区域 -->
+      <view class="main-content">
+        <view class="content-box"></view>
+      </view>
+    </view>
+
+
+
+
+    
+    <!-- 占位，确保内容不被底部导航遮挡 -->
+    <view class="placeholder"></view>
+  </view>
+</scroll-view>
+
+/* 棋牌室预约卡片 */
+.activity-card:nth-child(1) {
+  background-color: #e1f5fe; /* 浅蓝色 */
+}
+
+/* 组团约局卡片 */
+.activity-card:nth-child(2) {
+  background-color: #fff8e1; /* 浅黄色 */
+}
+
+/* 我的预约卡片 */
+.activity-card:nth-child(3) {
+  background-color: #fce4ec; /* 浅粉色 */
+}

@@ -1,0 +1,15 @@
+<view class="page">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar"></view>
+  
+  <!-- 顶部标题 -->
+  <view class="header">
+    <text class="title">开门</text>
+  </view>
+  
+  <view class="content">
+    <view class="door-button" bindtap="openDoor">
+      <text>点击开门</text>
+    </view>
+  </view>
+</view> 

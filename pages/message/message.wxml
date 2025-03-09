@@ -1,0 +1,39 @@
+<view class="page">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar"></view>
+  
+  <!-- 顶部标题 -->
+  <view class="header">
+    <text class="title">信息</text>
+  </view>
+  
+  <view class="message-list">
+    <!-- 消息项 -->
+    <view class="message-item">
+      <view class="avatar"></view>
+      <view class="message-content">
+        <view class="message-title">系统通知</view>
+        <view class="message-desc">您有一条新的通知消息</view>
+      </view>
+      <view class="message-time">10:30</view>
+    </view>
+    
+    <view class="message-item">
+      <view class="avatar"></view>
+      <view class="message-content">
+        <view class="message-title">物业服务</view>
+        <view class="message-desc">您的报修申请已处理完成</view>
+      </view>
+      <view class="message-time">昨天</view>
+    </view>
+    
+    <view class="message-item">
+      <view class="avatar"></view>
+      <view class="message-content">
+        <view class="message-title">社区活动</view>
+        <view class="message-desc">本周六将举办社区文化活动</view>
+      </view>
+      <view class="message-time">周一</view>
+    </view>
+  </view>
+</view> 
