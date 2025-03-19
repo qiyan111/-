@@ -2,6 +2,10 @@
   <!-- 顶部状态栏 -->
   <view class="status-bar"></view>
   
+  <!-- 顶部标题 -->
+  <view class="header">
+    <text class="title">社区</text>
+  </view>
   
   <!-- 社区内容 -->
   <view class="content">
@@ -10,29 +14,29 @@
     <view class="activity-grid">
       <!-- 棋牌室预约 -->
       <view class="activity-card" bindtap="tapChessRoom">
-        <image class="card-bg" src="/images/chess_pattern.png" mode="aspectFill"></image>
         <view class="card-content">
           <text class="card-title">棋牌室预约</text>
           <text class="card-subtitle">棋牌天地一键预约</text>
         </view>
+        <image class="card-bg-image" src="/images/chess_pattern.png"></image>
       </view>
-
+      
       <!-- 组团约局 -->
       <view class="activity-card" bindtap="tapGroupBooking">
-        <image class="card-bg" src="/images/group_pattern.png" mode="aspectFill"></image>
         <view class="card-content">
           <text class="card-title">组团约局</text>
           <text class="card-subtitle">组团加团，激发乐趣</text>
         </view>
+        <image class="card-bg-image" src="/images/group_pattern.png"></image>
       </view>
-
+      
       <!-- 我的预约 -->
       <view class="activity-card" bindtap="tapMyBooking">
-        <image class="card-bg" src="/images/booking_pattern.png" mode="aspectFill"></image>
         <view class="card-content">
           <text class="card-title">我的预约</text>
           <text class="card-subtitle">我的预约，贴心相随</text>
         </view>
+        <image class="card-bg-image" src="/images/booking_pattern.png"></image>
       </view>
     </view>
   </view>

@@ -1,0 +1,34 @@
+<view class="parking-query">
+  <view class="header">
+    <view class="back-icon" bindtap="navigateBack">
+      <image src="/images/back_arrow.png" mode="aspectFit"></image>
+    </view>
+    <text class="title">车位查询</text>
+  </view>
+
+  <view class="info-card">
+    <view class="info-item">
+      <text class="label">总车位：</text>
+      <text class="value">{{totalSpaces}} 个</text>
+    </view>
+    <view class="info-item">
+      <text class="label">剩余车位：</text>
+      <view class="value-wrapper">
+        <text class="value highlight">{{availableSpaces}}</text>
+        <text class="value"> 个</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="purchase-card">
+    <view class="purchase-button">
+      <image class="icon" src="/images/parking-buy.png" mode="aspectFit"></image>
+      <text>车位购买</text>
+    </view>
+  </view>
+  
+  <!-- 白色背景框 -->
+  <view class="empty-card">
+    <!-- 此处可以根据需要添加内容 -->
+  </view>
+</view> 

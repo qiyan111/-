@@ -13,7 +13,7 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: transparent;  /* 改为透明背景 */
 }
 
 .title {
@@ -21,61 +21,68 @@ page {
   font-weight: 500;
 }
 
-/* 用户信息卡片 */
+/* 用户卡片 - 修改设计 */
 .user-card {
-  margin: 20rpx 30rpx;
-  padding: 30rpx;
-  background: #fff;
+  position: relative;
+  margin: 30rpx 24rpx;
+  background: #1976D2; /* 加深的蓝色 */
   border-radius: 16rpx;
+  padding: 40rpx 30rpx; /* 增加上下内边距 */
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(25, 118, 210, 0.3);
+  height: 160rpx; /* 显式设置高度 */
+}
+
+.avatar-container {
+  position: relative;
+}
+
+.avatar {
+  width: 120rpx; /* 增大头像尺寸 */
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .user-info {
-  display: flex;
-  align-items: center;
+  flex: 1;
+  margin-left: 30rpx;
+  color: #fff;
 }
 
-.user-avatar {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 60rpx;
-  background-color: #eee;
-  margin-right: 20rpx;
-}
-
-.user-detail {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8rpx;
+.username {
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 16rpx; /* 增加间距 */
 }
 
 .user-id {
-  font-size: 24rpx;
-  color: #999;
+  font-size: 26rpx; /* ID字体 */
+  opacity: 0.8;
 }
 
-.card-arrow {
+.arrow {
+  width: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow-icon {
   width: 32rpx;
   height: 32rpx;
 }
 
-.watermark {
+.decoration-image {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  font-size: 200rpx;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.1);
-  line-height: 0.8;
-  z-index: 0;
+  right: -20rpx;
+  top: -10rpx;
+  width: 240rpx;
+  height: 240rpx;
+  opacity: 0.5;
+  transform: rotate(-10deg); /* 使图片斜放 */
 }
 
 /* 功能列表 */
@@ -94,9 +101,7 @@ page {
   border-bottom: 1rpx solid #f5f5f5;
 }
 
-.function-item:last-child {
-  border-bottom: none;
-}
+
 
 .function-left {
   display: flex;
@@ -119,27 +124,8 @@ page {
   height: 32rpx;
 }
 
-/* 图标样式 */
-.icon-record::before {
-  content: "📝";
+/* 如果有顶部背景图或其他设计，可能需要调整 */
+.profile-header {
+  background-color: #f6f6f6;  /* 与页面背景匹配 */
 }
 
-.icon-verify::before {
-  content: "🏠";
-}
-
-.icon-car::before {
-  content: "🚗";
-}
-
-.icon-neighbor::before {
-  content: "👥";
-}
-
-.icon-family::before {
-  content: "👪";
-}
-
-.icon-settings::before {
-  content: "⚙️";
-} 

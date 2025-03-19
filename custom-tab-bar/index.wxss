@@ -7,7 +7,7 @@
   background: white;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
-  border-top: 1rpx solid #f0f0f0;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
 .tab-bar-border {
@@ -27,14 +27,17 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  position: relative;
-  font-size: 20rpx;
+  padding-top: 10rpx;
 }
 
-.tab-icon {
-  width: 48rpx;
-  height: 48rpx;
-  margin-bottom: 4rpx;
+.tab-bar-icon {
+  width: 54rpx;
+  height: 54rpx;
+}
+
+.tab-bar-item view {
+  font-size: 20rpx;
+  margin-top: 4rpx;
 }
 
 /* 开门按钮特殊样式 */
@@ -59,4 +62,16 @@
   width: 60rpx;
   height: 60rpx;
   margin: 0;
+}
+
+.tab-item {
+  /* 样式保持不变 */
+}
+
+.tab-icon {
+  /* 样式保持不变 */
+}
+
+.tab-text {
+  /* 样式保持不变 */
 } 

@@ -1,0 +1,25 @@
+<view class="login-container">
+  <view class="logo-container">
+    <image class="logo" src="/images/logo.png" mode="aspectFit"></image>
+    <text class="app-name">物业管理系统</text>
+  </view>
+  
+  <view class="form-container">
+    <view class="welcome-text">欢迎使用物业管理系统</view>
+    <view class="sub-text">请使用微信账号登录</view>
+    
+    <view class="error-message" wx:if="{{errorMsg}}">{{errorMsg}}</view>
+    
+    <button class="wechat-login-btn" bindtap="handleLogin" loading="{{isLoading}}">
+      <image class="wechat-icon" src="/images/wechat.png" mode="aspectFit"></image>
+      微信一键登录
+    </button>
+  </view>
+  
+  <view class="footer">
+    <text class="agreement">登录即表示同意</text>
+    <text class="agreement-link" bindtap="showAgreement">《用户协议》</text>
+    <text class="agreement">和</text>
+    <text class="agreement-link" bindtap="showPrivacy">《隐私政策》</text>
+  </view>
+</view> 

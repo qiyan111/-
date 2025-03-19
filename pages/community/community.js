@@ -10,11 +10,10 @@ Page({
   },
   
   // 点击棋牌室预约
-  tapChessRoom() {
-    wx.showToast({
-      title: '棋牌室预约功能开发中',
-      icon: 'none'
-    });
+  tapChessRoom: function() {
+    wx.navigateTo({
+      url: '/pages/chessRoomBooking/chessRoomBooking'
+    })
   },
   
   // 点击组团约局

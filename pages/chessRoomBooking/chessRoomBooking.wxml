@@ -1,0 +1,90 @@
+<view class="booking-page">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar"></view>
+  
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="back-icon" bindtap="navigateBack">
+      <image src="/images/back_arrow.png" mode="aspectFit"></image>
+    </view>
+    <text class="title">棋牌室预约</text>
+  </view>
+
+  <!-- 预约表单 -->
+  <view class="form-container">
+    <view class="form-title">
+      <image class="form-icon" src="/images/form_icon.png" mode="aspectFit"></image>
+      <text>预约表</text>
+    </view>
+
+    <!-- 表单内容 -->
+    <view class="form-content">
+      <!-- 预约地点 -->
+      <view class="form-item">
+        <text class="label">预约地点</text>
+        <view class="location-container {{errors.location ? 'error-border' : ''}}">
+          <view class="location-tags">
+            <view class="location-tag {{selectedLocation === '场地1' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地1">场地1</view>
+            <view class="location-tag {{selectedLocation === '场地2' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地2">场地2</view>
+            <view class="location-tag {{selectedLocation === '场地3' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地3">场地3</view>
+            <view class="location-tag {{selectedLocation === '场地4' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地4">场地4</view>
+            <view class="location-tag {{selectedLocation === '场地5' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地5">场地5</view>
+            <view class="location-tag {{selectedLocation === '场地6' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地6">场地6</view>
+          </view>
+          <text wx:if="{{errors.location}}" class="error-text">请选择预约地点</text>
+        </view>
+      </view>
+
+      <!-- 预约开始时间 -->
+      <view class="form-item">
+        <text class="label">预约开始时间</text>
+        <view class="input-container time-container">
+          <image class="time-icon" src="/images/calendar_icon.png" mode="aspectFit"></image>
+          <picker mode="multiSelector" class="datetime-picker" bindchange="bindTimeChange">
+            <view class="picker-text">YYYY-MM-DD HH:MM</view>
+          </picker>
+        </view>
+      </view>
+
+      <!-- 预约人姓名 -->
+      <view class="form-item">
+        <text class="label">预约人姓名</text>
+        <view class="input-container {{errors.name ? 'error-border' : ''}}">
+          <input class="input" placeholder="请输入" placeholder-class="placeholder" bindinput="nameInput" value="{{name}}"/>
+        </view>
+        <text wx:if="{{errors.name}}" class="error-text">请输入姓名</text>
+      </view>
+
+      <!-- 预约人电话 -->
+      <view class="form-item">
+        <text class="label">预约人电话</text>
+        <view class="input-container {{errors.phone ? 'error-border' : ''}}">
+          <input class="input" placeholder="请输入" placeholder-class="placeholder" type="number" bindinput="phoneInput" value="{{phone}}"/>
+        </view>
+        <text wx:if="{{errors.phone}}" class="error-text">请输入有效的手机号</text>
+      </view>
+
+      <!-- 添加预约人 -->
+      <view class="add-visitor">
+        <view class="add-visitor-btn">
+          <text>增加预约人</text>
+          <text class="plus">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-buttons">
+    <button class="btn reset" bindtap="resetForm">重置</button>
+    <button class="btn submit" bindtap="submitBooking">立即预约</button>
+  </view>
+
+  <!-- 预约成功弹窗 -->
+  <view class="modal-mask" wx:if="{{showSuccessModal}}">
+    <view class="success-modal">
+      <view class="modal-title">预约成功</view>
+      <button class="modal-btn" bindtap="closeSuccessModal">好的</button>
+    </view>
+  </view>
+</view> 

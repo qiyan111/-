@@ -1,0 +1,15 @@
+<view class="container">
+  <button type="primary" bindtap="chooseAndUploadFile">选择并上传文件</button>
+  
+  <view class="file-list" wx:if="{{fileList.length > 0}}">
+    <view class="file-list-title">已上传文件列表：</view>
+    <view class="file-item" wx:for="{{fileList}}" wx:key="id" bindtap="previewFile" data-id="{{item.id}}">
+      <view class="file-name">{{item.name}}</view>
+      <view class="file-action">点击查看</view>
+    </view>
+  </view>
+  
+  <view class="empty-list" wx:else>
+    <text>暂无上传文件</text>
+  </view>
+</view> 

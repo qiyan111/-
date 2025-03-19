@@ -7,8 +7,8 @@
       </view>
     </block>
     <block wx:else>
-      <image class="tab-icon" src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image>
+      <image src="{{selected === index ? item.selectedIconPath : item.iconPath}}" class="tab-bar-icon"></image>
     </block>
-    <view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
+    <view class="text">{{item.text}}</view>
   </view>
 </view> 

@@ -1,10 +1,21 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/login/login",
     "pages/community/community",
     "pages/door/door",
     "pages/message/message",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/parkingQuery/parkingQuery",
+    "pages/payment/payment",
+    "pages/doorControl/doorControl",
+    "pages/qrCode/qrCode",
+    "pages/visitorPass/visitorPass",
+    "pages/chessRoomBooking/chessRoomBooking",
+    "pages/repair/prerepair",
+    "pages/repair/repaired",
+    "pages/repair/repairing",
+    "pages/repair/repair_list"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -54,15 +65,23 @@
   "renderer": "skyline",
   "rendererOptions": {
     "skyline": {
-      "defaultDisplayBlock": true,
-      "defaultContentBox": true,
-      "tagNameStyleIsolation": "legacy",
-      "disableABTest": true,
-      "sdkVersionBegin": "3.0.0",
-      "sdkVersionEnd": "15.255.255"
+      "defaultComponentDefinition": {}
     }
   },
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "subpackages": [
+    {
+      "root": "fonts-package",
+      "name": "fontsPackage",
+      "pages": ["index"]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["fontsPackage"]
+    }
+  }
 }

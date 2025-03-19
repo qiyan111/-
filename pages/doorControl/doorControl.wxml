@@ -1,0 +1,50 @@
+<view class="door-control-page">
+  <!-- 顶部标题栏 -->
+  <view class="header">
+    <view class="back-icon" bindtap="navigateBack">
+      <image src="/images/back_arrow.png" mode="aspectFit"></image>
+    </view>
+    <text class="title">门禁控制</text>
+  </view>
+  
+  <!-- 大门开关区域 -->
+  <view class="door-control-card">
+    <view class="door-icon">
+      <image src="/images/door_big.png" mode="aspectFit"></image>
+    </view>
+    <text class="door-title">大门开关</text>
+    
+    <view class="door-buttons">
+      <view class="door-button door-close" bindtap="closeDoor">关门</view>
+      <view class="door-button door-open" bindtap="openDoor">开门</view>
+    </view>
+  </view>
+  
+  <!-- 监控区域 -->
+  <view class="camera-card">
+    <view class="card-header">
+      <view class="card-icon">
+        <image src="/images/camera.png" mode="aspectFit"></image>
+      </view>
+      <text class="card-title">监控</text>
+    </view>
+    
+    <!-- 监控列表 -->
+    <view class="camera-list">
+      <view class="camera-item" wx:for="{{cameras}}" wx:key="id">
+        <view class="camera-preview">
+          <view class="play-button" bindtap="playCamera" data-id="{{item.id}}">
+            <image src="/images/play.png" mode="aspectFit"></image>
+          </view>
+          <view class="fullscreen-button" bindtap="fullScreen" data-id="{{item.id}}">
+            <image src="/images/fullscreen.png" mode="aspectFit"></image>
+          </view>
+        </view>
+        <view class="camera-info">
+          <text class="camera-location">{{item.location}}</text>
+          <text class="camera-time">{{item.time}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 

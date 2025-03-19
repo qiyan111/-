@@ -1,0 +1,437 @@
+/* 整个页面容器，预留顶部空间防止被系统状态栏挡住，可根据实际需求调整 */
+.container {
+  padding: 6.2vh 0 0 0; /* 上方10vh，左右各5% */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f8f8f8;
+}
+
+/* Header区域：返回箭头与导航栏 */
+.header {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20rpx;
+}
+
+/* 左上角返回箭头 */
+.back-arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20rpx;
+  font-size: 36rpx;
+  color: #333;
+  z-index: 10;
+}
+
+/* 导航栏：4个等宽项目 */
+.nav-box {
+  margin-top: 70rpx; /* 为返回箭头留出空间 */
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+}
+
+.nav-item {
+  flex: 1;
+  text-align: center;
+  padding: 15rpx 0;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.nav-item.active {
+  color: #007aff;
+  border-bottom: 2rpx solid #007aff;
+}
+
+/* 主体内容 */
+.content {
+  flex: 1;
+  margin-top: 20rpx;
+}
+
+/* 其余样式保持不变 */
+.custom-nav {
+  background-color: #fff;
+  box-shadow: 0 1rpx 3rpx rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10rpx; /* 与 tab-bar 之间留点距离 */
+}
+
+/* 导航标题（如“报事维修”） */
+.nav-title {
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: bold;
+  padding: 24rpx 0 0 0;
+  color: #333;
+}
+
+/* 四个tab */
+.tab-bar {
+  margin-top: 10rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 15rpx 0;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.tab.active {
+  color: #007aff;
+  border-bottom: 2rpx solid #007aff;
+}
+
+/*****************************
+ * 主体内容
+ *****************************/
+.content {
+  flex: 1;
+  padding: 20rpx;
+  box-sizing: border-box;
+  overflow: scroll;
+}
+
+/* 标题"工单填写" */
+.section-title {
+  font-size: 28rpx; /* 将字体从32rpx减小到28rpx */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  display: flex; /* 添加flex布局以便于图标和文字的排列 */
+  align-items: center; /* 垂直居中对齐 */
+}
+
+/* 添加标题图标样式 */
+.section-title-icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 8rpx; /* 图标和文字之间的间距 */
+}
+
+/* 白色表单卡片 */
+.form-card {
+  background-color: #fff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.05);
+  padding: 20rpx;
+}
+
+/* 单个表单行 */
+.form-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+/* label */
+.label {
+  width: 180rpx;  /* 根据截图大概设定 */
+  color: #333;
+  font-size: 28rpx;
+}
+
+/* 输入框外容器 */
+.input-wrap {
+  flex: 1;
+}
+
+/* 通用输入框 */
+.input-control {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 16rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  border: 1rpx solid #eee;
+}
+
+/*****************************
+ * 紧急程度
+ *****************************/
+/* 紧急程度 */
+.radio-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* 改为靠右对齐 */
+  gap: 24rpx;
+}
+
+.radio-tag {
+  width: 60rpx;
+  height: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0rpx;
+}
+
+/* 激活状态 */
+.radio-tag.active {
+  border: 2rpx solid #007aff;
+  background-color: rgba(0, 122, 255, 0.1); /* 轻微背景色变化 */
+}
+
+/* 紧急程度图片 */
+.emergency-icon {
+  width: 60rpx;
+  height: 36rpx;
+  object-fit: contain;
+}
+
+/*****************************
+ * 维修区域（户内/公共区域）Segmented Control
+ *****************************/
+.segmented-control {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* 改为靠右对齐 */
+  gap: 30rpx;
+}
+
+.seg-btn {
+  width: 100rpx; /* 设置固定宽度，使按钮变短 */
+  text-align: center;
+  padding: 10rpx 0;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  border: 1rpx solid #eee;
+  font-size: 20rpx;
+  color: #333;
+}
+
+.seg-btn.active {
+  border-color: #007aff;
+  color: #007aff;
+}
+
+/*****************************
+ * 问题描述 + 上传按钮
+ *****************************/
+.textarea-item {
+  align-items: flex-start;
+}
+
+/* 添加全宽样式，移除label后使用 */
+.full-width {
+  padding-left: 0;
+}
+
+.textarea-wrap {
+  flex: 1;
+  position: relative;
+  width: 100%;
+}
+
+/* 文本域 */
+.textarea-control {
+  width: 100%;
+  min-height: 250rpx;
+  box-sizing: border-box;
+  padding: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  border: 1rpx solid #eee;
+  resize: none;
+  margin-bottom: 30rpx; /* 为图片上传区域留出空间 */
+}
+
+/* 图片上传区域 */
+.image-upload-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  bottom: 30rpx;
+  left: 16rpx;
+  right: 16rpx;
+}
+
+/* 上传按钮 */
+.upload-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx dashed #ccc;
+  border-radius: 8rpx;
+}
+
+.upload-icon {
+  width: 80rpx;
+  height: 80rpx;
+  object-fit: contain;
+}
+
+/* 删除重复的 .upload-area 和 .upload-icon */
+/* 图片预览列表 */
+.image-preview-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-left: 16rpx;
+}
+
+.image-preview-item {
+  position: relative;
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 10rpx;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 4rpx;
+}
+
+.delete-icon {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+}
+
+/* 虚线框 + 上传按钮 */
+.upload-area {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160rpx;
+  height: 160rpx;
+  transform: translate(-50%, -50%);
+  border: 2rpx dashed #ccc;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon {
+  width: 60rpx;
+  height: 60rpx;
+  object-fit: contain;
+}
+
+/* 字数统计 */
+.word-count {
+  position: absolute;
+  right: 8rpx;
+  bottom: 32rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+/*****************************
+ * 日期显示
+ *****************************/
+.date-text {
+  width: 100%;
+  height: 68rpx;
+  line-height: 68rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  border: 1rpx solid #eee;
+  padding: 0 16rpx;
+}
+
+/*****************************
+ * 底部按钮组
+ *****************************/
+.btn-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 30rpx;
+}
+
+.btn {
+  flex: 1;
+  margin: 0 10rpx;
+  height: 58rpx;
+  line-height: 37rpx;
+  font-size: 26rpx;
+  border-radius: 8rpx;
+  text-align: center;
+  color: #fff;
+  border: none;
+}
+
+.reset {
+  background-color: #ccc;
+}
+
+.submit {
+  background-color: #007aff;
+}
+
+/* 时间段选择 */
+.time-slot-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 20rpx;
+}
+
+.time-slot {
+  flex: 1;
+  text-align: center;
+  padding: 10rpx 0;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  border: 1rpx solid #eee;
+  font-size: 26rpx;
+  color: #333;
+}
+
+.time-slot.active {
+  border-color: #007aff;
+  color: #007aff;
+  background-color: rgba(0, 122, 255, 0.1);
+}
+
+/* 页面标题 */
+.page-title {
+  text-align: center;
+  font-size: 36rpx; /* 可以根据需要调整字体大小 */
+  font-weight: bold;
+  color: #333;
+  position: absolute;
+  top: 20rpx;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}

@@ -1,0 +1,41 @@
+.container {
+  padding: 30rpx;
+}
+
+.file-list {
+  margin-top: 30rpx;
+  width: 100%;
+}
+
+.file-list-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 10rpx;
+  margin-bottom: 16rpx;
+}
+
+.file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-action {
+  color: #07c160;
+  margin-left: 20rpx;
+}
+
+.empty-list {
+  margin-top: 100rpx;
+  text-align: center;
+  color: #999;
+} 

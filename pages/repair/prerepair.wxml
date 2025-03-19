@@ -1,0 +1,190 @@
+<view class="container">
+  <!-- Header区域：返回箭头与导航栏 -->
+  <view class="header">
+    <!-- 左上角返回箭头 -->
+    <view class="back-arrow" bindtap="onBack">&lt;</view>
+    <!-- 页面标题 -->
+    <view class="page-title">报事维修</view>
+    <!-- 导航栏：全屏宽度内（已左右预留5%），内部横向排列4个等宽项 -->
+    <view class="nav-box">
+      <view wx:for="{{tabs}}" wx:key="index" data-index="{{index}}" class="nav-item {{index===activeTab ? 'active' : ''}}" bindtap="onTabClick">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 页面主体内容 -->
+  <scroll-view class="content" scroll-y>
+    <!-- 标题：工单填写 -->
+    <view class="section-title">
+      <image class="section-title-icon" src="/images/repair/prerepair_1.png" mode="aspectFit"></image>
+      工单填写
+    </view>
+
+    <!-- 表单容器，白色卡片背景，圆角、阴影等 -->
+    <view class="form-card">
+      <!-- 房号 -->
+      <view class="form-item">
+        <view class="label">房号</view>
+        <view class="input-wrap">
+          <input
+            class="input-control"
+            placeholder="请填写"
+            value="{{houseNumber}}"
+            bindinput="onHouseNumberInput"
+          />
+        </view>
+      </view>
+
+      <!-- 紧急程度 -->
+      <view class="form-item">
+        <view class="label">紧急程度</view>
+        <view class="radio-wrap">
+          <!-- 三个紧急程度按钮使用图片 -->
+          <view
+            class="radio-tag {{emergencyLevel==='低'?'active':''}}"
+            data-level="低"
+            bindtap="onEmergencyTap"
+          >
+            <image src="{{emergencyImages['低']}}" class="emergency-icon" />
+          </view>
+          <view
+            class="radio-tag {{emergencyLevel==='中'?'active':''}}"
+            data-level="中"
+            bindtap="onEmergencyTap"
+          >
+            <image src="{{emergencyImages['中']}}" class="emergency-icon" />
+          </view>
+          <view
+            class="radio-tag {{emergencyLevel==='高'?'active':''}}"
+            data-level="高"
+            bindtap="onEmergencyTap"
+          >
+            <image src="{{emergencyImages['高']}}" class="emergency-icon" />
+          </view>
+        </view>
+      </view>
+
+      <!-- 维修区域 -->
+      <view class="form-item">
+        <view class="label">选择维修区域</view>
+        <view class="segmented-control">
+          <!-- 户内 -->
+          <view
+            class="seg-btn {{repairArea==='户内'?'active':''}}"
+            data-area="户内"
+            bindtap="onAreaTap"
+          >户内</view>
+          <!-- 公共区域 -->
+          <view
+            class="seg-btn {{repairArea==='公共区域'?'active':''}}"
+            data-area="公共区域"
+            bindtap="onAreaTap"
+          >公共区域</view>
+        </view>
+      </view>
+
+      <!-- 问题描述 -->
+      <view class="form-item textarea-item full-width">
+        <view class="textarea-wrap">
+          <textarea
+            class="textarea-control"
+            placeholder="请填写详细的问题描述"
+            maxlength="50"
+            auto-height
+            value="{{description}}"
+            bindinput="onDescriptionInput"
+          />
+          
+          <!-- 图片上传区域 -->
+          <view class="image-upload-area">
+            <!-- 上传按钮 -->
+            <view class="upload-btn" bindtap="onUploadTap">
+              <image src="/images/repair/prerepair_upload.png" class="upload-icon" />
+            </view>
+            
+            <!-- 图片预览区域 -->
+            <view class="image-preview-list">
+              <block wx:for="{{uploadedImages}}" wx:key="index">
+                <view class="image-preview-item">
+                  <image src="{{item}}" class="preview-image" mode="aspectFill" />
+                  <view class="delete-icon" bindtap="onDeleteImage" data-index="{{index}}">×</view>
+                </view>
+              </block>
+            </view>
+          </view>
+          
+          <!-- 右下角字数统计 -->
+          <view class="word-count">{{description.length}}/50字</view>
+        </view>
+      </view>
+
+      <!-- 联系人 -->
+      <view class="form-item">
+        <view class="label">联系人</view>
+        <view class="input-wrap">
+          <input
+            class="input-control"
+            placeholder="请输入联系人"
+            value="{{contactName}}"
+            bindinput="onContactNameInput"
+          />
+        </view>
+      </view>
+
+      <!-- 联系方式 -->
+      <view class="form-item">
+        <view class="label">联系方式</view>
+        <view class="input-wrap">
+          <input
+            class="input-control"
+            type="number"
+            placeholder="请输入联系方式"
+            maxlength="11"
+            value="{{contactPhone}}"
+            bindinput="onContactPhoneInput"
+          />
+        </view>
+      </view>
+
+      <!-- 期望上门时间 -->
+      <view class="form-item">
+        <view class="label">期望上门时间</view>
+        <view class="input-wrap">
+          <picker
+            mode="date"
+            value="{{expectedDate}}"
+            start="2020-01-01"
+            end="2030-12-31"
+            bindchange="onDateChange"
+          >
+            <view class="date-text">{{expectedDate}}</view>
+          </picker>
+        </view>
+      </view>
+      
+      <!-- 时间段选择 -->
+      <view class="form-item">
+        <view class="label">具体时间段</view>
+        <view class="time-slot-wrap">
+          <view 
+            class="time-slot {{selectedTimeSlot==='8-12点'?'active':''}}" 
+            data-slot="8-12点" 
+            bindtap="onTimeSlotTap"
+          >8-12点</view>
+          <view 
+            class="time-slot {{selectedTimeSlot==='14-18点'?'active':''}}" 
+            data-slot="14-18点" 
+            bindtap="onTimeSlotTap"
+          >14-18点</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部按钮组 -->
+    <view class="btn-group">
+      <button class="btn reset" bindtap="onReset">重置</button>
+      <button class="btn submit" bindtap="onSubmit">立即上传</button>
+    </view>
+  </scroll-view>
+</view>

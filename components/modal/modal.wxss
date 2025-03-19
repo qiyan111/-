@@ -1,0 +1,50 @@
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-container {
+  width: 80%;
+  max-width: 600rpx;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 12rpx; /* 这里设置圆角 */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  padding: 30rpx 0;
+}
+
+.modal-body {
+  padding: 30rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.modal-footer {
+  padding: 20rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.modal-btn {
+  background-color: #1989fa;
+  color: #fff;
+  border-radius: 8rpx; /* 按钮圆角 */
+  font-size: 32rpx;
+} 

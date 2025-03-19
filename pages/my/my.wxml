@@ -1,4 +1,4 @@
-<view class="page">
+<view class="my-page">
   <!-- 顶部状态栏 -->
   <view class="status-bar"></view>
   
@@ -7,17 +7,26 @@
     <text class="title">我的</text>
   </view>
   
-  <!-- 用户信息卡片 -->
+  <!-- 用户信息卡片 - 新设计 -->
   <view class="user-card">
-    <view class="user-info">
-      <view class="user-avatar"></view>
-      <view class="user-detail">
-      
-        <view class="user-name">用户名称</view>
-        <view class="user-id">ID: XXXXXXXXX</view>
-      </view>
+    <!-- 左侧头像 -->
+    <view class="avatar-container">
+      <view class="avatar"></view>
     </view>
-    <image class="card-arrow" src="/images/arrow_right0.png"></image>
+    
+    <!-- 中间用户信息 -->
+    <view class="user-info">
+      <view class="username">用户名称</view>
+      <view class="user-id">ID: XXXXXXXXXX</view>
+    </view>
+    
+    <!-- 右侧箭头 -->
+    <view class="arrow">
+      <image class="arrow-icon" src="/images/arrow_right.png" mode="aspectFit"></image>
+    </view>
+    
+    <!-- 背景装饰图片 -->
+    <image class="decoration-image" src="/images/my/letter_e.png" mode="aspectFit"></image>
   </view>
   
   <!-- 功能列表 -->
@@ -28,7 +37,7 @@
         <image class="function-icon" src="/images/my/record.png"></image>
         <text class="function-name">缴费记录</text>
       </view>
-        <image class="card-arrow" src="/images/arrow_right.png"></image>
+      
     </view>
 
     <!-- 住户认证 -->
@@ -37,7 +46,7 @@
         <image class="function-icon" src="/images/my/verify.png"></image>
         <text class="function-name">住户认证</text>
       </view>
-       <image class="card-arrow" src="/images/arrow_right.png"></image>
+     
     </view>
 
     <!-- 我的车辆 -->
@@ -46,7 +55,7 @@
         <image class="function-icon" src="/images/my/car.png"></image>
         <text class="function-name">我的车辆</text>
       </view>
-        <image class="card-arrow" src="/images/arrow_right.png"></image>
+                                 <!-- 可增加箭头 -->
     </view>
 
     <!-- 邀请邻居 -->
@@ -55,7 +64,7 @@
         <image class="function-icon" src="/images/my/neighbor.png"></image>
         <text class="function-name">邀请邻居</text>
       </view>
-      <image class="item-arrow" src="/images/arrow_right.png"></image>
+     <!--  -->
     </view>
 
     <!-- 我的家属 -->
@@ -64,7 +73,7 @@
         <image class="function-icon" src="/images/my/family.png"></image>
         <text class="function-name">我的家属</text>
       </view>
-      <image class="item-arrow" src="/images/arrow_right.png"></image>
+      <!-- <image class="item-arrow" src="/images/arrow_right.png"></image> -->
     </view>
 
     <!-- 设置 -->
@@ -73,7 +82,7 @@
         <image class="function-icon" src="/images/my/settings.png"></image>
         <text class="function-name">设置</text>
       </view>
-      <image class="item-arrow" src="/images/arrow_right.png"></image>
+      <!-- <image class="item-arrow" src="/images/arrow_right.png"></image> -->
     </view>
   </view>
 </view> 

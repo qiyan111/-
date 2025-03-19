@@ -55,11 +55,34 @@ Page({
   
   // 点击功能按钮
   tapFunction(e) {
-    const id = e.currentTarget.dataset.id;
-    wx.showToast({
-      title: `点击了${this.data.functions.find(item => item.id === id).name}`,
-      icon: 'none'
-    });
+    const functionItem = e.currentTarget.dataset.function;
+    
+    // 根据功能ID执行不同操作
+    switch(functionItem.name) {
+      case '车位查询':
+        this.navigateToParkingQuery();
+        break;
+      case '门禁控制':
+        // 跳转到门禁控制页面
+        this.navigateToDoorControl();
+        break;
+      case '访客通行':
+        this.navigateToVisitorPass();
+        break;
+      case '报事维修':
+        // 处理报事维修
+        this.navigateToRepair();
+        break;
+      case '生活缴费':
+        // 处理生活缴费
+        this.navigateToPayment();
+        break;
+      default:
+        wx.showToast({
+          title: `点击了${functionItem.name}`,
+          icon: 'none'
+        });
+    }
   },
   
   // 点击开门按钮
@@ -117,4 +140,45 @@ Page({
         break;
     }
   },
+  
+  // 添加跳转方法
+  navigateToParkingQuery() {
+    wx.navigateTo({
+      url: '/pages/parkingQuery/parkingQuery'
+    })
+  },
+  
+  // 添加生活缴费页面跳转方法
+  navigateToPayment() {
+    wx.navigateTo({
+      url: '/pages/payment/payment'
+    })
+  },
+  
+  // 添加门禁控制页面跳转方法
+  navigateToDoorControl() {
+    wx.navigateTo({
+      url: '/pages/doorControl/doorControl'
+    })
+  },
+  navigateToRepair(){
+    wx.navigateTo({
+      url: '/pages/repair/prerepair',
+      success: function() {
+        console.log('跳转成功');
+      },
+      fail: function(error) {
+        console.error('跳转失败：', error);
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
+    })
+  },
+  navigateToVisitorPass() {
+    wx.navigateTo({
+      url: '/pages/visitorPass/visitorPass'
+    })
+  }
 })

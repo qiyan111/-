@@ -1,0 +1,51 @@
+<view class="container">
+  <!-- Header区域：返回箭头与导航栏 -->
+  <view class="header">
+    <!-- 左上角返回箭头 -->
+    <view class="back-arrow" bindtap="onBack">&lt;</view>
+    <!-- 导航栏：全屏宽度内（已左右预留5%），内部横向排列4个等宽项 -->
+    <view class="nav-box">
+      <view wx:for="{{tabs}}" wx:key="index" data-index="{{index}}" class="nav-item {{index===activeTab ? 'active' : ''}}" bindtap="onTabClick">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容区：模拟两条来自后端的维修信息 -->
+  <view class="content">
+    <block wx:for="{{repairList}}" wx:key="index">
+      <view class="card">
+        <!-- 顶部行：单号 & 状态 -->
+        <view class="card-header">
+          <text class="order-num">单号{{item.orderNumber}}</text>
+          <text class="status">{{item.status}}</text>
+        </view>
+        <!-- 维保区域 -->
+        <view class="card-row">
+          <text class="label">维保区域：</text>
+          <text class="desc">{{item.repairArea}}</text>
+        </view>
+        <!-- 故障描述 -->
+        <view class="card-row">
+          <text class="label">故障描述：</text>
+          <text class="desc">{{item.faultDesc}}</text>
+        </view>
+        <!-- 紧急程度：显示对应图片 -->
+        <view class="card-row">
+          <text class="label">紧急程度：</text>
+          <image class="emergency-icon" src="{{emergencyImages[item.emergencyLevel]}}" />
+        </view>
+        <!-- 上门时间 -->
+        <view class="card-row">
+          <text class="label">上门时间：</text>
+          <text class="desc">{{item.expectedTime}}</text>
+        </view>
+        <!-- 操作按钮行 -->
+        <view class="btn-row">
+          <button class="btn" bindtap="onContact" data-index="{{index}}">联系维修人员</button>
+          <button class="btn" bindtap="onUrge" data-index="{{index}}">催单</button>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

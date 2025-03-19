@@ -58,7 +58,7 @@ page {
   font-weight: bold;
   text-align: center;
   position: absolute;
-  top: 64rpx;
+  top: 44px;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -243,18 +243,15 @@ page {
 
 /* 主页内容区域 */
 .main-content {
-  padding: 0;
-  margin-bottom: 30rpx;
-  width: 100%;
+  margin: 20rpx 30rpx;
+  background: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  min-height: 500rpx; /* 设置最小高度，可以根据需要调整 */
 }
 
-.content-box {
-  width: 100%;
-  height: 320rpx;
-  background-color: #fff;
-  border-radius: 0;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-}
+
 
 .placeholder {
   height: 100rpx;

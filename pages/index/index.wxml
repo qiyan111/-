@@ -33,44 +33,12 @@
       <!-- 功能区域 -->
       <view class="function-area">
         <view class="function-list">
-          <!-- 门禁控制 -->
-          <view class="function-item" bindtap="tapFunction" data-id="door">
-            <view class="function-icon" style="background-color: #9E7EEF;">
-              <image src="/images/door.png"></image>
+          <!-- 遍历 functions 数组来渲染功能按钮 -->
+          <view class="function-item" wx:for="{{functions}}" wx:key="id" bindtap="tapFunction" data-function="{{item}}">
+            <view class="function-icon" style="background-color: {{item.color}};">
+              <image src="{{item.icon}}"></image>
             </view>
-            <text class="function-name">门禁控制</text>
-          </view>
-          
-          <!-- 访客通行 -->
-          <view class="function-item" bindtap="tapFunction" data-id="visitor">
-            <view class="function-icon" style="background-color: #66A6FF;">
-              <image src="/images/visitor.png"></image>
-            </view>
-            <text class="function-name">访客通行</text>
-          </view>
-          
-          <!-- 报事维修 -->
-          <view class="function-item" bindtap="tapFunction" data-id="repair">
-            <view class="function-icon" style="background-color: #5ECFC7;">
-              <image src="/images/repair.png"></image>
-            </view>
-            <text class="function-name">报事维修</text>
-          </view>
-          
-          <!-- 车位查询 -->
-          <view class="function-item" bindtap="tapFunction" data-id="parking">
-            <view class="function-icon" style="background-color: #FF914D;">
-              <image src="/images/parking.png"></image>
-            </view>
-            <text class="function-name">车位查询</text>
-          </view>
-          
-          <!-- 生活缴费 -->
-          <view class="function-item" bindtap="tapFunction" data-id="payment">
-            <view class="function-icon" style="background-color: #5DD693;">
-              <image src="/images/payment.png"></image>
-            </view>
-            <text class="function-name">生活缴费</text>
+            <text class="function-name">{{item.name}}</text>
           </view>
         </view>
       </view>
@@ -92,6 +60,11 @@
       <view class="main-content">
         <view class="content-box"></view>
       </view>
+
+      <!-- 在首页中添加点击事件 -->
+      <view class="parking-section" bindtap="navigateToParkingQuery">
+        <!-- 原有的车位查询内容 -->
+      </view>
     </view>
 
 
@@ -103,17 +76,4 @@
   </view>
 </scroll-view>
 
-/* 棋牌室预约卡片 */
-.activity-card:nth-child(1) {
-  background-color: #e1f5fe; /* 浅蓝色 */
-}
 
-/* 组团约局卡片 */
-.activity-card:nth-child(2) {
-  background-color: #fff8e1; /* 浅黄色 */
-}
-
-/* 我的预约卡片 */
-.activity-card:nth-child(3) {
-  background-color: #fce4ec; /* 浅粉色 */
-}

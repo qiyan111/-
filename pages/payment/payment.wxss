@@ -1,0 +1,186 @@
+.payment-page {
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.header {
+  background: #ffffff;
+  padding: 0;
+  padding-top: 7vh;
+  padding-bottom: 20rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
+}
+
+.back-icon-wrapper {
+  position: absolute;
+  left: 20rpx;
+  top: calc(7vh - 10rpx);
+  padding: 20rpx;
+  z-index: 100;
+}
+
+.back-icon {
+  font-size: 40rpx;
+  color: #333 !important;
+  opacity: 0.8;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 500;
+  color: #333 !important;
+  margin-left: 80rpx;
+  margin-right: 80rpx;
+}
+
+/* 标签切换栏 */
+.tab-bar {
+  display: flex;
+  background: #ffffff;
+  color: #333;
+  padding: 0 30rpx 10rpx;
+  border-bottom: 1rpx solid #eeeeee;
+  margin-bottom: 10rpx;
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  position: relative;
+  font-size: 30rpx;
+  color: #666 !important;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  font-weight: bold;
+  color: #1989fa;
+}
+
+.tab-line {
+  position: absolute;
+  bottom: -10rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #1989fa;
+  border-radius: 2rpx;
+}
+
+/* 账单列表样式 */
+.bill-list {
+  padding: 20rpx;
+}
+
+.bill-item {
+  background: white;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.bill-no {
+  font-size: 26rpx;
+  color: #333;
+}
+
+.bill-type {
+  font-size: 28rpx;
+  color: #1989fa;
+  font-weight: 500;
+}
+
+.bill-detail, .bill-period {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 15rpx;
+}
+
+.bill-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.bill-amount {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.pay-button {
+  background: #1989fa;
+  color: white;
+  padding: 10rpx 30rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+}
+
+/* 空状态显示 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 增强导航栏样式 */
+.payment-page .header {
+  background: #ffffff !important;
+  color: #333 !important;
+  border-bottom: 1rpx solid #eeeeee;
+}
+
+.payment-page .back-icon {
+  color: #333 !important;
+}
+
+.payment-page .title {
+  color: #333 !important;
+}
+
+/* 提高激活标签样式的优先级 */
+.payment-page .tab-bar .tab-item.active {
+  font-weight: bold;
+  color: #1989fa !important;
+}
+
+/* 提高下划线的优先级 */
+.payment-page .tab-bar .tab-item .tab-line {
+  position: absolute;
+  bottom: -10rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background: #1989fa !important;
+  border-radius: 2rpx;
+} 
