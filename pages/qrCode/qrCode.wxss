@@ -1,98 +1,61 @@
-.qrcode-page {
-  background: #ffffff;
+/* 页面容器 */
+.qr-code-page {
   min-height: 100vh;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 顶部导航栏 */
+/* 顶部标题栏 */
 .header {
-  background: #ffffff;
-  padding: 0;
-  padding-top: 7vh;
-  padding-bottom: 20rpx;
-  color: #333;
   display: flex;
   align-items: center;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
   position: relative;
-  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
-}
-
-.back-icon-wrapper {
-  position: absolute;
-  left: 20rpx;
-  top: calc(7vh - 10rpx);
-  padding: 20rpx;
-  z-index: 100;
+  height: 100rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
 .back-icon {
-  font-size: 40rpx;
-  color: #333;
-  opacity: 0.8;
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25rpx;
+}
+
+.back-icon image {
+  width: 36rpx;
+  height: 36rpx;
 }
 
 .title {
   flex: 1;
   text-align: center;
-  font-size: 34rpx;
+  font-size: 36rpx;
   font-weight: 500;
   color: #333;
-  margin-left: 80rpx;
-  margin-right: 80rpx;
+  margin-top: 25rpx;
 }
 
-.share-icon {
-  position: absolute;
-  right: 20rpx;
-  top: calc(7vh - 10rpx);
-  padding: 20rpx;
-  z-index: 100;
-}
-
-.share-icon .iconfont {
-  font-size: 40rpx;
-  color: #333;
-  opacity: 0.8;
-}
-
-/* 二维码显示区域 */
-.qrcode-container {
+/* 二维码容器 */
+.qr-container {
+  flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 40rpx;
-  margin-top: 20rpx;
 }
 
-.qrcode-wrapper {
-  width: 600rpx;
-  height: 600rpx;
-  background: #f5f5f5;
+/* 加载中样式 */
+.loading-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  border-radius: 8rpx;
-}
-
-.qrcode-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #999;
-  font-size: 32rpx;
-}
-
-.qrcode-tip {
-  font-size: 24rpx;
-  margin-top: 20rpx;
-}
-
-/* 加载动画 */
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #999;
-  font-size: 28rpx;
 }
 
 .loading-spinner {
@@ -110,64 +73,83 @@
   100% { transform: rotate(360deg); }
 }
 
-/* 底部提示 */
-.footer-tip {
-  text-align: center;
-  font-size: 24rpx;
-  color: #999;
-  margin-top: 40rpx;
-} 
-/* 在原有样式基础上添加以下样式 */
-
-/* 倒计时样式 */
-.countdown {
-  margin-top: 16rpx;
+.loading-text {
   font-size: 28rpx;
   color: #666;
 }
 
-/* 刷新按钮样式 */
-.refresh-btn {
-  margin-top: 30rpx;
-  width: 300rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  font-size: 28rpx;
-  color: #ffffff;
-  background-color: #07c160;
-  border-radius: 40rpx;
-}
-
 /* 错误提示样式 */
-.error-wrapper {
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 40rpx;
-  text-align: center;
 }
 
-.error-msg {
+.error-text {
   font-size: 28rpx;
-  color: #ff5252;
-  margin-bottom: 30rpx;
-  display: block;
-}
-
-/* 二维码图片样式 */
-.qrcode-image {
-  width: 400rpx;
-  height: 400rpx;
-  margin: 0 auto;
-}
-
-.auth-button {
-  margin: 20rpx;
-  width: 80%;
-  background-color: #07c160;
-  color: white;
-}
-
-.error-message {
   color: #ff4d4f;
+  margin: 20rpx 0 40rpx;
   text-align: center;
-  margin: 20rpx;
+}
+
+.retry-btn {
+  background-color: #1989fa;
+  color: #fff;
   font-size: 28rpx;
+  padding: 16rpx 40rpx;
+  border-radius: 40rpx;
+  border: none;
+}
+
+/* 二维码内容样式 */
+.qr-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.qr-image {
+  width: 500rpx;
+  height: 500rpx;
+  margin: 40rpx 0;
+  background-color: #fff;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.qr-tip {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.refresh-container {
+  margin-top: 40rpx;
+}
+
+.refresh-btn {
+  background-color: #1989fa;
+  color: #fff;
+  font-size: 28rpx;
+  padding: 16rpx 40rpx;
+  border-radius: 40rpx;
+  border: none;
+}
+
+/* 授权按钮样式 */
+.auth-button {
+  width: 80%;
+  height: 88rpx;
+  line-height: 88rpx;
+  margin: 40rpx auto;
+  border-radius: 44rpx;
+  background: #1989fa;
+  color: #fff;
+  font-size: 32rpx;
+  text-align: center;
 }

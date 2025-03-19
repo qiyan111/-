@@ -4,7 +4,8 @@ const authService = require('../../utils/authService');
 
 Page({
   data: {
-    qrCodeUrl: '', // 存放后端生成的二维码URL
+    qrId: '',
+    qrImagePath: '',
     isLoading: true,
     errorMsg: '',
     showAuthButton: false // 是否显示授权按钮
@@ -16,6 +17,7 @@ Page({
   
   // 获取二维码
   getQrCode() {
+    console.log('=== 开始获取二维码流程 ===');
     this.setData({
       isLoading: true,
       errorMsg: '',
@@ -23,34 +25,39 @@ Page({
     });
     
     // 检查登录状态
-    if (!authService.checkLogin()) {
-      // 显示授权按钮
+    const isLoggedIn = authService.checkLogin();
+    console.log('登录状态:', isLoggedIn);
+    
+    if (!isLoggedIn) {
+      console.log('用户未登录，显示授权按钮');
       this.setData({
         isLoading: false,
         showAuthButton: true
       });
     } else {
+      console.log('用户已登录，开始获取二维码');
       this.fetchQrCode();
     }
   },
   
   // 获取一码通二维码
   fetchQrCode() {
+    console.log('=== 开始调用 getQrCode 服务 ===');
     return qrCodeService.getQrCode()
       .then(res => {
-        console.log('获取二维码成功:', res);
-        // 使用 id 构建二维码 URL
-        const qrCodeUrl = `https://property.suyiiyii.top/qrcode/show/${res.id}`;
-        
+        console.log('获取二维码成功，返回数据:', res);
         this.setData({
-          qrCodeUrl: qrCodeUrl,
+          qrId: res.id,
           isLoading: false,
           errorMsg: '',
-          showAuthButton: false  // 确保授权按钮被隐藏
+          showAuthButton: false
         });
+        
+        // 使用ID生成二维码
+        return this.generateQrCodeImage(res.id);
       })
       .catch(err => {
-        console.error('获取二维码失败:', err);
+        console.error('获取二维码失败，错误信息:', err);
         if (err.code === 401) {
           this.setData({
             isLoading: false,
@@ -64,6 +71,43 @@ Page({
           });
         }
         throw err;
+      });
+  },
+  
+  // 生成二维码图片
+  generateQrCodeImage(qrId) {
+    console.log('=== 开始生成二维码图片 ===');
+    console.log('二维码ID:', qrId);
+    
+    if (!qrId) {
+      console.error('没有二维码ID，无法生成图片');
+      this.setData({
+        isLoading: false,
+        errorMsg: '获取二维码失败，请重试'
+      });
+      return;
+    }
+    
+    this.setData({ isLoading: true });
+    
+    qrCodeService.generateQRCode(qrId)
+      .then(imagePath => {
+        console.log('生成二维码图片成功，图片路径:', imagePath);
+        this.setData({
+          qrImagePath: imagePath,
+          isLoading: false
+        });
+      })
+      .catch(err => {
+        console.error('生成二维码图片失败:', err);
+        // 使用备用方法
+        const backupQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrId)}`;
+        console.log('使用备用二维码URL:', backupQrUrl);
+        
+        this.setData({
+          qrImagePath: backupQrUrl,
+          isLoading: false
+        });
       });
   },
   
@@ -111,6 +155,20 @@ Page({
           showAuthButton: true
         });
       }
+    });
+  },
+  
+  // 刷新二维码
+  refreshQrCode() {
+    this.getQrCode();
+  },
+  
+  // 处理图片加载错误
+  handleImageError(e) {
+    console.error('二维码图片加载失败:', e);
+    const backupQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(this.data.qrId)}`;
+    this.setData({
+      qrImagePath: backupQrUrl
     });
   }
 });

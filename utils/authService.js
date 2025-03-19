@@ -166,7 +166,15 @@ const checkLogin = () => {
 
 // 获取 token
 const getToken = () => {
-  return wx.getStorageSync('token');
+  const token = wx.getStorageSync('token');
+  console.log('从存储获取的 token:', token);  // 添加日志
+  return token;
+};
+
+// 保存 token
+const setToken = (token) => {
+  console.log('保存 token:', token);  // 添加日志
+  wx.setStorageSync('token', token);
 };
 
 module.exports = {
@@ -177,5 +185,6 @@ module.exports = {
   getAuthHeader,
   login,
   checkLogin,
-  getToken
+  getToken,
+  setToken
 }; 

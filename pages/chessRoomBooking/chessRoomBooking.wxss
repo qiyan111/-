@@ -259,4 +259,16 @@
   border: none;
   margin: 0;
   padding: 0;
+}
+
+.auth-button {
+  width: 80%;
+  height: 88rpx;
+  line-height: 88rpx;
+  margin: 40rpx auto;
+  border-radius: 44rpx;
+  background: #1989fa;
+  color: #fff;
+  font-size: 32rpx;
+  text-align: center;
 } 

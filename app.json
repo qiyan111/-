@@ -15,7 +15,8 @@
     "pages/repair/prerepair",
     "pages/repair/repaired",
     "pages/repair/repairing",
-    "pages/repair/repair_list"
+    "pages/repair/repair_list",
+    "pages/guestForm/guestForm"
   ],
   "window": {
     "navigationBarTextStyle": "black",

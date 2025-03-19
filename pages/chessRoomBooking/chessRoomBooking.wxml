@@ -12,13 +12,23 @@
 
   <!-- 预约表单 -->
   <view class="form-container">
-    <view class="form-title">
+    <!-- 授权按钮 -->
+    <button 
+      wx:if="{{showAuthButton}}" 
+      class="auth-button" 
+      type="primary" 
+      bindtap="handleAuth"
+    >
+      点击授权使用
+    </button>
+
+    <view class="form-title" wx:if="{{!showAuthButton}}">
       <image class="form-icon" src="/images/form_icon.png" mode="aspectFit"></image>
       <text>预约表</text>
     </view>
 
-    <!-- 表单内容 -->
-    <view class="form-content">
+    <!-- 表单内容 - 只在未显示授权按钮时显示 -->
+    <view class="form-content" wx:if="{{!showAuthButton}}">
       <!-- 预约地点 -->
       <view class="form-item">
         <text class="label">预约地点</text>
@@ -40,8 +50,16 @@
         <text class="label">预约开始时间</text>
         <view class="input-container time-container">
           <image class="time-icon" src="/images/calendar_icon.png" mode="aspectFit"></image>
-          <picker mode="multiSelector" class="datetime-picker" bindchange="bindTimeChange">
-            <view class="picker-text">YYYY-MM-DD HH:MM</view>
+          <picker 
+            mode="multiSelector" 
+            value="{{timeIndex}}" 
+            range="{{timeArray}}" 
+            class="datetime-picker" 
+            bindchange="bindTimeChange"
+          >
+            <view class="picker-text">
+              {{timeArray[0][timeIndex[0]]}}{{timeArray[1][timeIndex[1]]}}{{timeArray[2][timeIndex[2]]}} {{timeArray[3][timeIndex[3]]}}:{{timeArray[4][timeIndex[4]]}}
+            </view>
           </picker>
         </view>
       </view>
@@ -75,7 +93,7 @@
   </view>
 
   <!-- 底部按钮 -->
-  <view class="bottom-buttons">
+  <view class="bottom-buttons" wx:if="{{!showAuthButton}}">
     <button class="btn reset" bindtap="resetForm">重置</button>
     <button class="btn submit" bindtap="submitBooking">立即预约</button>
   </view>

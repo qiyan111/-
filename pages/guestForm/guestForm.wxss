@@ -1,0 +1,136 @@
+/* 页面容器 */
+.guest-form-page {
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部标题栏 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background-color: #fff;
+  position: relative;
+  height: 100rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.back-icon {
+  width: 50rpx;
+  height: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25rpx;
+}
+
+.back-icon image {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333;
+  margin-top: 25rpx;
+}
+
+/* 表单容器 */
+.form-container {
+  padding: 30rpx;
+  background-color: #fff;
+  margin: 20rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 表单项 */
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+/* 日期选择器 */
+.picker-view {
+  width: 100%;
+  height: 80rpx;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* 按钮容器 */
+.form-button-container {
+  margin-top: 50rpx;
+}
+
+.submit-button {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background-color: #1989fa;
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 44rpx;
+}
+
+/* 结果展示区域 */
+.result-container {
+  padding: 30rpx;
+  margin-top: 20rpx;
+}
+
+/* 二维码内容样式 */
+.qr-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #fff;
+  padding: 30rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.qr-image {
+  width: 400rpx;
+  height: 400rpx;
+  margin: 30rpx 0;
+}
+
+.qr-tip {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.qr-id {
+  font-size: 24rpx;
+  color: #999;
+} 

@@ -20,7 +20,7 @@
       <view class="form-item">
         <text class="label">访客姓名</text>
         <view class="input-container">
-          <input class="input" placeholder="请输入" placeholder-class="placeholder"/>
+          <input class="input" placeholder="请输入" placeholder-class="placeholder" value="{{formData.guestName}}" bindinput="inputGuestName"/>
         </view>
       </view>
 
@@ -28,7 +28,7 @@
       <view class="form-item">
         <text class="label">访客电话</text>
         <view class="input-container">
-          <input class="input" placeholder="请输入" placeholder-class="placeholder" type="number"/>
+          <input class="input" placeholder="请输入" placeholder-class="placeholder" type="number" value="{{formData.guestPhone}}" bindinput="inputGuestPhone"/>
         </view>
       </view>
 
@@ -37,8 +37,8 @@
         <text class="label">来访时间</text>
         <view class="input-container time-container">
           <image class="time-icon" src="/images/calendar_icon.png" mode="aspectFit"></image>
-          <picker mode="multiSelector" class="datetime-picker" bindchange="bindTimeChange">
-            <view class="picker-text">YYYY-MM-DD HH:MM</view>
+          <picker mode="multiSelector" class="datetime-picker" bindchange="bindTimeChange" value="{{timeIndex}}" range="{{timeArray}}">
+            <view class="picker-text">{{formData.visitTime || 'YYYY-MM-DD HH:MM'}}</view>
           </picker>
         </view>
       </view>
@@ -47,15 +47,15 @@
       <view class="form-item">
         <text class="label">拜访地点</text>
         <view class="location-container">
-          <picker class="location-item" bindchange="bindBuildingChange">
+          <picker class="location-item" bindchange="bindBuildingChange" value="{{buildingIndex}}" range="{{buildings}}">
             <view class="dropdown-icon">
-              <text class="location-label">楼元</text>
+              <text class="location-label">{{formData.building || '楼栋'}}</text>
               <image src="/images/arrow_down.png" mode="aspectFit"></image>
             </view>
           </picker>
-          <picker class="location-item" bindchange="bindFloorChange">
+          <picker class="location-item" bindchange="bindFloorChange" value="{{floorIndex}}" range="{{floors}}">
             <view class="dropdown-icon">
-              <text class="location-label">楼层</text>
+              <text class="location-label">{{formData.floor || '楼层'}}</text>
               <image src="/images/arrow_down.png" mode="aspectFit"></image>
             </view>
           </picker>
@@ -66,8 +66,8 @@
       <view class="form-item reason-item">
         <text class="label">来访原因</text>
         <view class="textarea-container">
-          <textarea class="textarea" placeholder="请输入" placeholder-class="placeholder" maxlength="50"/>
-          <text class="word-count">0/50字</text>
+          <textarea class="textarea" placeholder="请输入" placeholder-style="position: relative; top: 0;" placeholder-class="placeholder" maxlength="50" value="{{formData.visitReason}}" bindinput="inputVisitReason"/>
+          <text class="word-count">{{wordCount}}/50字</text>
         </view>
       </view>
 
@@ -83,7 +83,7 @@
 
   <!-- 底部按钮 -->
   <view class="bottom-buttons">
-    <button class="btn reset">重置</button>
-    <button class="btn submit">生成访客码</button>
+    <button class="btn reset" bindtap="resetForm">重置</button>
+    <button class="btn submit" bindtap="generateVisitorCode" loading="{{isSubmitting}}">提交申请</button>
   </view>
 </view> 

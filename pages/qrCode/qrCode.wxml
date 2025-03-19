@@ -1,4 +1,4 @@
-<view class="qrcode-page">
+<view class="qr-code-page">
   <!-- 顶部标题栏 -->
   <view class="header">
     <view class="back-icon" bindtap="navigateBack">
@@ -8,27 +8,33 @@
   </view>
   
   <!-- 二维码显示区域 -->
-  <view class="qrcode-container">
-    <view class="error-message" wx:if="{{errorMsg}}">{{errorMsg}}</view>
+  <view class="qr-container">
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{isLoading}}">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
     
     <!-- 授权按钮 -->
-    <button 
-      wx:if="{{showAuthButton}}" 
-      class="auth-button" 
-      type="primary" 
-      bindtap="handleAuth">
-      点击授权使用
-    </button>
+    <view class="auth-container" wx:elif="{{showAuthButton}}">
+      <button class="auth-button" bindtap="handleAuth">点击授权</button>
+    </view>
     
-    <!-- 加载状态 -->
-    <view wx:elif="{{isLoading}}" class="loading">
-      <view class="loading-spinner"></view>
-      <text>正在加载二维码...</text>
+    <!-- 错误提示 -->
+    <view class="error-container" wx:elif="{{errorMsg}}">
+      <icon type="warn" size="64" color="#ff4d4f"></icon>
+      <text class="error-text">{{errorMsg}}</text>
+      <button class="retry-btn" bindtap="refreshQrCode">重试</button>
     </view>
     
     <!-- 二维码显示 -->
-    <view wx:else class="qrcode-wrapper">
-      <image class="qrcode-image" src="{{qrCodeUrl}}" mode="aspectFit"></image>
+    <view class="qr-content" wx:elif="{{qrImagePath}}">
+      <image class="qr-image" src="{{qrImagePath}}" mode="aspectFit" binderror="handleImageError"></image>
+      <text class="qr-tip">请向保安出示此二维码</text>
+      <text class="qr-id" wx:if="{{qrId}}">ID: {{qrId}}</text>
+      <view class="refresh-container">
+        <button class="refresh-btn" bindtap="refreshQrCode">刷新二维码</button>
+      </view>
     </view>
   </view>
 </view>

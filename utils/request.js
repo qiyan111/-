@@ -9,7 +9,7 @@ const request = (options) => {
       data: options.data,
       header: options.header || {},
       success: (res) => {
-        // 根据您的后端 API 规范调整
+        // 根据后端 API 规范调整
         if (res.statusCode === 200) {
           if (res.data.code === 200) {
             resolve(res.data.data);
