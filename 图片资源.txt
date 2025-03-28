@@ -1,0 +1,79 @@
+项目图片资源位置及用途文档
+顶部区域图片
+顶部背景图
+路径: /images/header_bg.png
+用途: 作为首页顶部蓝色区域的背景图片
+位置: 首页顶部区域全覆盖
+样式: header-bg 类
+通知图标
+路径: /images/notification.png
+用途: 显示在左上角通知区域
+位置: 顶部左侧通知文字旁
+样式: notification-icon 类
+地址图标
+路径: /images/location.png
+用途: 显示在地址信息前
+位置: 蓝色背景底部区域
+样式: address-icon 类
+背景大E
+不是图片，而是CSS样式生成的半透明字母
+用途: 装饰背景
+位置: 右上角
+样式: background-e 类
+功能区域图片
+门禁控制图标
+路径: /images/door.png
+用途: 门禁控制功能图标
+位置: 功能区第一个图标
+背景色: #9E7EEF
+访客通行图标
+路径: /images/visitor.png
+用途: 访客通行功能图标
+位置: 功能区第二个图标
+背景色: #66A6FF
+报事维修图标
+路径: /images/repair.png
+用途: 报事维修功能图标
+位置: 功能区第三个图标
+背景色: #5ECFC7
+车位查询图标
+路径: /images/parking.png
+用途: 车位查询功能图标
+位置: 功能区第四个图标
+背景色: #FF914D
+生活缴费图标
+路径: /images/payment.png
+用途: 生活缴费功能图标
+位置: 功能区第五个图标
+背景色: #5DD693
+通知区域图片
+通知背景图
+路径: /images/notice_bg.png
+用途: 物业通知区域背景
+位置: 物业通知区域全覆盖
+样式: notice-bg 类
+通知图标
+路径: /images/notice_blue.png
+用途: 物业通知图标
+位置: 通知文字前
+样式: notice-icon 类
+其他页面图片
+用户卡片水印
+路径: /images/e_logo.png
+用途: 我的页面用户卡片水印
+位置: 用户卡片右下角
+样式: card-watermark 类
+图片资源汇总
+| 图片路径 | 用途 | 位置 | 样式类 |
+|---------|------|------|--------|
+| /images/header_bg.png | 顶部背景 | 首页顶部 | header-bg |
+| /images/notification.png | 通知图标 | 左上角 | notification-icon |
+| /images/location.png | 地址图标 | 地址信息前 | address-icon |
+| /images/door.png | 门禁控制 | 功能区 | - |
+| /images/visitor.png | 访客通行 | 功能区 | - |
+| /images/repair.png | 报事维修 | 功能区 | - |
+| /images/parking.png | 车位查询 | 功能区 | - |
+| /images/payment.png | 生活缴费 | 功能区 | - |
+| /images/notice_bg.png | 通知背景 | 通知区域 | notice-bg |
+| /images/notice_blue.png | 通知图标 | 通知文字前 | notice-icon |
+| /images/e_logo.png | 用户卡片水印 | 我的页面 | card-watermark |
