@@ -1,0 +1,309 @@
+<view class="container">
+  <!-- 固定的Header区域 -->
+  <view class="header fixed">
+    <!-- 左上角返回箭头 -->
+    <view class="back-arrow" bindtap="onBack">&lt;</view>
+    <!-- 页面标题 -->
+    <view class="page-title">报事维修</view>
+    <!-- 导航栏：全屏宽度内，内部横向排列4个等宽项 -->
+    <view class="nav-box">
+      <view wx:for="{{tabs}}" wx:key="index" data-index="{{index}}" class="nav-item {{index===activeTab ? 'active' : ''}}" bindtap="onTabClick">
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容区域，添加顶部padding以避免被固定导航栏遮挡 -->
+  <view class="content-container">
+    <!-- Tab 0: 报事申请 -->
+    <scroll-view class="content" scroll-y wx:if="{{activeTab === 0}}">
+      <!-- 标题：工单填写 -->
+      <view class="section-title">
+        <image class="section-title-icon" src="/images/repair/prerepair_1.png" mode="aspectFit"></image>
+        工单填写
+      </view>
+
+      <!-- 表单容器，白色卡片背景 -->
+      <view class="form-card">
+        <!-- 表格式布局 -->
+        <view class="table-form">
+          <!-- 房号 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">房号</view>
+            <view class="form-cell input-cell">
+              <input
+                class="input-control"
+                placeholder="请输入"
+                value="{{houseNumber}}"
+                bindinput="onHouseNumberInput"
+              />
+            </view>
+          </view>
+
+          <!-- 紧急程度 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">紧急程度</view>
+            <view class="form-cell input-cell emergency-cell">
+              <!-- 三个紧急程度按钮使用图片，居右排列 -->
+              <view class="emergency-wrap">
+                <view
+                  class="radio-tag {{emergencyLevel==='低'?'active':''}}"
+                  data-level="低"
+                  bindtap="onEmergencyTap"
+                >
+                  <text>低</text>
+                </view>
+                <view
+                  class="radio-tag {{emergencyLevel==='中'?'active':''}}"
+                  data-level="中"
+                  bindtap="onEmergencyTap"
+                >
+                  <text>中</text>
+                </view>
+                <view
+                  class="radio-tag {{emergencyLevel==='高'?'active':''}}"
+                  data-level="高"
+                  bindtap="onEmergencyTap"
+                >
+                  <text>高</text>
+                </view>
+              </view>
+            </view>
+          </view>
+
+          <!-- 维修区域 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">请选择维修区域</view>
+            <view class="form-cell input-cell">
+              <view class="segmented-control">
+                <!-- 户内 -->
+                <view
+                  class="seg-btn {{repairArea==='户内'?'active':''}}"
+                  data-area="户内"
+                  bindtap="onAreaTap"
+                >户内</view>
+                <!-- 公共区域 -->
+                <view
+                  class="seg-btn {{repairArea==='公共区域'?'active':''}}"
+                  data-area="公共区域"
+                  bindtap="onAreaTap"
+                >公共区域</view>
+              </view>
+            </view>
+          </view>
+
+          <!-- 问题描述 - 修改为占据整行 -->
+          <view class="form-row description-row">
+            <textarea
+              class="textarea-control-full"
+              placeholder="请输入详细的问题描述"
+              value="{{description}}"
+              bindinput="onDescriptionInput"
+            ></textarea>
+            
+            <!-- 上传按钮放在文本框下方 -->
+            <view class="upload-area-container">
+              <view class="upload-btn" bindtap="onUploadTap" wx:if="{{uploadedImages.length < 3}}">
+                <view class="plus-icon">+</view>
+                <view class="upload-text">上传图片/视频</view>
+              </view>
+              
+              <!-- 已上传图片展示 -->
+              <view class="uploaded-images">
+                <block wx:for="{{uploadedImages}}" wx:key="index">
+                  <view class="image-item">
+                    <image src="{{item}}" mode="aspectFill" class="uploaded-image" />
+                    <view class="delete-btn" bindtap="onDeleteImage" data-index="{{index}}">×</view>
+                  </view>
+                </block>
+              </view>
+            </view>
+          </view>
+
+          <!-- 联系人 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">联系人</view>
+            <view class="form-cell input-cell">
+              <input
+                class="input-control"
+                placeholder="请输入联系人"
+                value="{{contactName}}"
+                bindinput="onContactNameInput"
+              />
+            </view>
+          </view>
+
+          <!-- 联系方式 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">联系方式</view>
+            <view class="form-cell input-cell">
+              <input
+                class="input-control"
+                type="number"
+                placeholder="请输入联系电话"
+                value="{{contactPhone}}"
+                bindinput="onContactPhoneInput"
+                maxlength="11"
+              />
+            </view>
+          </view>
+
+          <!-- 期望上门时间 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">期望上门时间</view>
+            <view class="form-cell input-cell">
+              <picker
+                mode="date"
+                value="{{expectedDate}}"
+                start="2023-01-01"
+                end="2030-12-31"
+                bindchange="onDateChange"
+              >
+                <view class="picker-text {{expectedDate==='YYYY - MM - DD'?'placeholder':''}}">
+                  {{expectedDate}}
+                </view>
+              </picker>
+            </view>
+          </view>
+
+          <!-- 时间段选择 -->
+          <view class="form-row">
+            <view class="form-cell label-cell">时间段</view>
+            <view class="form-cell input-cell">
+              <view class="time-slot-wrap">
+                <view 
+                  class="time-slot {{selectedTimeSlot==='8-12点'?'active':''}}" 
+                  data-slot="8-12点" 
+                  bindtap="onTimeSlotTap"
+                >8-12点</view>
+                <view 
+                  class="time-slot {{selectedTimeSlot==='14-18点'?'active':''}}" 
+                  data-slot="14-18点" 
+                  bindtap="onTimeSlotTap"
+                >14-18点</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部按钮组 - 缩小并居中 -->
+      <view class="btn-group-centered">
+        <button class="btn-small reset" bindtap="onReset">重置</button>
+        <button class="btn-small submit" bindtap="onSubmit">立即上传</button>
+      </view>
+    </scroll-view>
+
+    <!-- Tab 1: 待受理 -->
+    <scroll-view class="content" scroll-y wx:if="{{activeTab === 1}}">
+      <view class="card" wx:for="{{pendingOrders}}" wx:key="id">
+        <view class="card-header">
+          <view class="order-num">单号: {{item.orderNumber}}</view>
+          <view class="status">{{item.status}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">维修区域:</view>
+          <view class="desc">{{item.repairArea || '地点地点'}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">故障描述:</view>
+          <view class="desc">{{item.description}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">报修时间:</view>
+          <view class="desc">{{item.createTime}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">紧急程度:</view>
+          <view class="desc">
+            <view class="emergency-tag {{item.emergencyLevel === '低' ? 'low' : (item.emergencyLevel === '中' ? 'medium' : 'high')}}">{{item.emergencyLevel}}</view>
+          </view>
+        </view>
+        <view class="card-row">
+          <view class="label">上门时间:</view>
+          <view class="desc">{{item.expectedDate || 'YYYY - MM - DD'}} {{item.timeSlot || 'HH-HH'}}</view>
+        </view>
+        <view class="btn-row">
+          <button class="action-btn" bindtap="onContact" data-index="{{index}}" data-type="pending">联系维修人员</button>
+          <button class="action-btn primary" bindtap="onUrge" data-index="{{index}}">催单</button>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- Tab 2: 处理中 -->
+    <scroll-view class="content" scroll-y wx:if="{{activeTab === 2}}">
+      <view class="card" wx:for="{{processingOrders}}" wx:key="id">
+        <view class="card-header">
+          <view class="order-num">单号: {{item.orderNumber}}</view>
+          <view class="status">{{item.status}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">维修区域:</view>
+          <view class="desc">{{item.repairArea || '地点地点'}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">故障描述:</view>
+          <view class="desc">{{item.description}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">报修时间:</view>
+          <view class="desc">{{item.createTime}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">紧急程度:</view>
+          <view class="desc">
+            <view class="emergency-tag {{item.emergencyLevel === '低' ? 'low' : (item.emergencyLevel === '中' ? 'medium' : 'high')}}">{{item.emergencyLevel}}</view>
+          </view>
+        </view>
+        <view class="card-row">
+          <view class="label">上门时间:</view>
+          <view class="desc">{{item.expectedDate || 'YYYY - MM - DD'}} {{item.timeSlot || 'HH-HH'}}</view>
+        </view>
+        <view class="btn-row">
+          <button class="action-btn" bindtap="onContact" data-index="{{index}}" data-type="processing">联系维修人员</button>
+          <button class="action-btn primary" style="visibility: hidden;">催单</button>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- Tab 3: 已完成 -->
+    <scroll-view class="content" scroll-y wx:if="{{activeTab === 3}}">
+      <view class="card" wx:for="{{completedOrders}}" wx:key="id">
+        <view class="card-header">
+          <view class="order-num">单号: {{item.orderNumber}}</view>
+          <view class="status">{{item.status}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">维修区域:</view>
+          <view class="desc">{{item.repairArea || '地点地点'}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">故障描述:</view>
+          <view class="desc">{{item.description}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">报修时间:</view>
+          <view class="desc">{{item.createTime}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">完成时间:</view>
+          <view class="desc">{{item.completeTime || 'YYYY - MM - DD HH:MM'}}</view>
+        </view>
+        <view class="card-row">
+          <view class="label">紧急程度:</view>
+          <view class="desc">
+            <view class="emergency-tag {{item.emergencyLevel === '低' ? 'low' : (item.emergencyLevel === '中' ? 'medium' : 'high')}}">{{item.emergencyLevel}}</view>
+          </view>
+        </view>
+        <view class="card-row">
+          <view class="label">上门时间:</view>
+          <view class="desc">{{item.expectedDate || 'YYYY - MM - DD'}} {{item.timeSlot || 'HH-HH'}}</view>
+        </view>
+        <view class="btn-row">
+          <button class="action-btn" bindtap="onContact" data-index="{{index}}" data-type="completed">联系维修人员</button>
+          <button class="action-btn primary" style="visibility: hidden;">催单</button>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
