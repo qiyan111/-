@@ -31,24 +31,98 @@ Page({
       '低': '/images/repair/low.png',
       '中': '/images/repair/mid.png',
       '高': '/images/repair/high.png'
-    }
+    },
+    
+    // 待受理维修列表 - 用于Tab 1
+    pendingOrders: [
+      {
+        id: 1,
+        orderNumber: 'WX20230001',
+        status: '待受理',
+        createTime: '2023-06-01 10:30',
+        description: '厨房水龙头漏水',
+        emergencyLevel: '中'
+      },
+      {
+        id: 2,
+        orderNumber: 'WX20230002',
+        status: '待受理',
+        createTime: '2023-06-02 14:20',
+        description: '卫生间灯不亮',
+        emergencyLevel: '高'
+      }
+    ],
+    
+    // 处理中维修列表 - 用于Tab 2
+    processingOrders: [
+      {
+        id: 3,
+        orderNumber: 'WX20230003',
+        status: '处理中',
+        createTime: '2023-05-28 09:15',
+        description: '客厅空调不制冷',
+        emergencyLevel: '低'
+      },
+      {
+        id: 4,
+        orderNumber: 'WX20230004',
+        status: '处理中',
+        createTime: '2023-05-29 16:40',
+        description: '厨房排水管堵塞',
+        emergencyLevel: '中'
+      }
+    ],
+    
+    // 已完成维修列表 - 用于Tab 3
+    completedOrders: [
+      {
+        id: 5,
+        orderNumber: 'WX20230005',
+        status: '已完成',
+        createTime: '2023-05-20 16:40',
+        completeTime: '2023-05-21 11:30',
+        description: '卧室门锁坏了',
+        emergencyLevel: '高'
+      },
+      {
+        id: 6,
+        orderNumber: 'WX20230006',
+        status: '已完成',
+        createTime: '2023-05-15 09:20',
+        completeTime: '2023-05-15 14:30',
+        description: '客厅灯不亮',
+        emergencyLevel: '中'
+      }
+    ]
   },
 
   onLoad() {
     // 可在此处请求后端接口，获取实际数据并 setData
   },
 
-  // 点击顶部Tab
+  // 点击顶部Tab - 修改为在当前页面切换内容
   onTabClick(e) {
     const index = e.currentTarget.dataset.index;
     this.setData({ activeTab: index });
-    wx.navigateTo({ url: this.data.tabs[index].page });
+    // 不再跳转页面，而是在当前页面切换内容
   },
 
   // 点击左上角返回箭头
-  onBack() {
-    wx.navigateBack();
-  },
+  // 添加返回按钮功能
+  onBack: function() {
+  // 判断是否可以返回上一页
+  const pages = getCurrentPages();
+  if (pages.length > 1) {
+    wx.navigateBack({
+      delta: 1
+    });
+  } else {
+    // 如果没有上一页，则跳转到首页
+    wx.switchTab({
+      url: '/pages/index/index'
+    });
+  }
+},
 
   // 房号输入
   onHouseNumberInput(e) {
@@ -187,6 +261,59 @@ Page({
       expectedDate,
       selectedTimeSlot,
       uploadedImages
+    });
+  },
+  
+  // 点击"联系维修人员"按钮
+  onContact: function(e) {
+    const index = e.currentTarget.dataset.index;
+    const type = e.currentTarget.dataset.type;
+    let repairItem;
+    
+    // 根据当前激活的Tab确定使用哪个列表
+    if (type === 'pending') {
+      repairItem = this.data.pendingOrders[index];
+    } else if (type === 'processing') {
+      repairItem = this.data.processingOrders[index];
+    } else {
+      repairItem = this.data.completedOrders[index];
+    }
+    
+    // 模拟维修人员电话号码
+    const phoneNumber = repairItem.repairManPhone || '13800138000';
+    const repairManName = repairItem.repairManName || '张师傅';
+    
+    // 弹窗显示维修人员电话
+    wx.showModal({
+      title: '维修人员联系方式',
+      content: `${repairManName}: ${phoneNumber}`,
+      confirmText: '拨打',
+      cancelText: '取消',
+      success(res) {
+        if (res.confirm) {
+          // 用户点击了拨打按钮
+          wx.makePhoneCall({
+            phoneNumber: phoneNumber,
+            fail(err) {
+              console.error('拨打电话失败', err);
+              wx.showToast({
+                title: '拨打失败',
+                icon: 'none'
+              });
+            }
+          });
+        }
+      }
+    });
+  },
+
+  // 点击"催单"按钮
+  onUrge: function(e) {
+    // 弹窗显示"已催单"
+    wx.showToast({
+      title: '已催单',
+      icon: 'success',
+      duration: 2000
     });
   }
 });

@@ -66,7 +66,7 @@
       <view class="form-item reason-item">
         <text class="label">来访原因</text>
         <view class="textarea-container">
-          <textarea class="textarea" placeholder="请输入" placeholder-style="position: relative; top: 0;" placeholder-class="placeholder" maxlength="50" value="{{formData.visitReason}}" bindinput="inputVisitReason"/>
+          <textarea class="textarea" placeholder="请输入" placeholder-class="placeholder" maxlength="50" value="{{formData.visitReason}}" bindinput="inputVisitReason"/>
           <text class="word-count">{{wordCount}}/50字</text>
         </view>
       </view>

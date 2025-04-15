@@ -1,5 +1,9 @@
 {
   "pages": [
+    "pages/welcome/welcome",
+  
+    "pages/selectCommunity/selectCommunity",
+    "pages/selectCommunityDetail/selectCommunityDetail",
     "pages/index/index",
     "pages/login/login",
     "pages/community/community",
@@ -13,10 +17,9 @@
     "pages/visitorPass/visitorPass",
     "pages/chessRoomBooking/chessRoomBooking",
     "pages/repair/prerepair",
-    "pages/repair/repaired",
-    "pages/repair/repairing",
-    "pages/repair/repair_list",
-    "pages/guestForm/guestForm"
+    "pages/guestForm/guestForm",
+    "pages/parking/parking",
+    "pages/residentAuth/residentAuth"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -83,6 +86,11 @@
     "pages/index/index": {
       "network": "all",
       "packages": ["fontsPackage"]
+    }
+  },
+  "permission": {
+    "scope.userInfo": {
+      "desc": "您的信息将用于小程序登录"
     }
   }
 }

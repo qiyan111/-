@@ -16,8 +16,15 @@
     </view>
     
     <!-- 授权按钮 -->
-    <view class="auth-container" wx:elif="{{showAuthButton}}">
-      <button class="auth-button" bindtap="handleAuth">点击授权</button>
+    <view wx:if="{{!isLoggedIn}}" class="auth-container">
+      <button 
+        class="auth-button" 
+        type="primary" 
+        open-type="getUserInfo"
+        bindgetuserinfo="handleGetUserInfo"
+      >
+        点击授权登录
+      </button>
     </view>
     
     <!-- 错误提示 -->

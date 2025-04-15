@@ -18,7 +18,9 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    }
+    },
+    "ignoreDevUnusableDomain": true,
+    "ignoreHttpsCertCheck": true
   },
   "condition": {},
   "editorSetting": {

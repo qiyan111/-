@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {},
+  "navigationBarTitleText": "报事维修",
+  "navigationStyle": "custom",
+  "disableScroll": true
 }

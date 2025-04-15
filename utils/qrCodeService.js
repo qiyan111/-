@@ -9,131 +9,174 @@ const app = getApp();
 const request = require('./request'); // 一个请求工具
 
 /**
- * 获取一码通二维码
- * 调用后端接口获取一码通二维码内容
+ * 确保用户已登录
+ * @returns {Promise} 登录状态的Promise
+ */
+const ensureLogin = async () => {
+  const token = authService.getToken();
+  if (!token) {
+    console.log('未检测到登录状态，尝试自动登录');
+    try {
+      await authService.login();
+      console.log('自动登录成功');
+      return true;
+    } catch (err) {
+      console.error('自动登录失败:', err);
+      throw new Error('请先登录');
+    }
+  }
+  return true;
+};
+
+/**
+ * 获取二维码
  * @returns {Promise} 包含二维码数据的Promise
  */
-const getQrCode = () => {
-  return new Promise((resolve, reject) => {
-    console.log('=== 开始获取二维码 ===');
+const getQrCode = async () => {
+  console.log('开始执行getQrCode函数');
+  
+  // 检查登录状态
+  const rawToken = wx.getStorageSync('token');
+  console.log('原始token值:', rawToken);
+  
+  // 确保token格式正确，去除可能重复的Bearer前缀
+  let token = rawToken;
+  if (token && token.startsWith('Bearer ')) {
+    token = token.replace('Bearer ', '');
+  }
+  // 现在给token添加正确的Bearer前缀
+  token = token ? `Bearer ${token}` : '';
+  
+  console.log('处理后的token:', token);
+  
+  if (!token) {
+    console.error('未检测到token，用户未登录');
+    return Promise.reject({ message: '未登录' });
+  }
+  
+  // 获取已选择的小区信息
+  const selectedCommunity = wx.getStorageSync('selectedCommunity');
+  console.log('从Storage获取的小区信息:', JSON.stringify(selectedCommunity));
+  
+  if (!selectedCommunity || !selectedCommunity.id) {
+    console.error('未选择小区或小区信息不完整');
+    return Promise.reject({ message: '请先选择小区' });
+  }
+  
+  const communityId = selectedCommunity.id;
+  console.log('将要使用的小区ID:', communityId);
+  
+  // 检查communityId的有效性
+  if (!communityId) {
+    console.error('警告: communityId为空或无效:', communityId);
+  } else {
+    console.log('communityId数据类型:', typeof communityId);
+  }
+  
+  // 构建请求头
+  const headers = {
+    'Authorization': token, // 使用处理后的token，不再添加'token'字段
+    'communityId': communityId
+  };
+  console.log('完整的请求头信息:', JSON.stringify(headers));
+  
+  // 返回请求并添加日志
+  return request({
+    url: '/qrcode/get',
+    method: 'POST',
+    header: headers  // 使用header而不是headers 
+  }).then(response => {
+    console.log('获取二维码成功，响应数据:', JSON.stringify(response));
+    return response;
+  }).catch(error => {
+    console.error('获取二维码失败，错误信息:', JSON.stringify(error));
+    console.error('请求参数回顾 - token:', token, 'communityId:', communityId);
+    throw error;
+  });
+};
+
+/**
+ * 生成二维码图片
+ * @param {String} qrId - 二维码ID
+ * @returns {Promise} 包含二维码图片的Promise
+ */
+const generateQRCode = (qrId) => {
+  console.log('生成二维码图片，ID:', qrId);
+  
+  // 使用在线服务生成二维码
+  return new Promise((resolve) => {
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrId)}`;
+    console.log('二维码图片URL:', qrCodeUrl);
+    resolve(qrCodeUrl);
+  });
+};
+
+/**
+ * 验证二维码
+ * @param {String} qrId - 二维码ID
+ * @returns {Promise} 验证结果的Promise
+ */
+const verifyQrCode = async (qrId) => {
+  try {
+    await ensureLogin();
+    console.log('=== 开始验证二维码 ===');
     
     const token = authService.getToken();
-    console.log('当前 token 状态:', token ? '已获取' : '未获取');
-    
     if (!token) {
-      console.error('未获取到 token，终止请求');
-      reject(new Error('未登录'));
-      return;
+      throw new Error('未登录');
     }
     
-    // 使用硬编码的 token 测试
-    const testToken = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxODQyMDQ3MTc2fQ.eR8U4B92t6xoRjzKocEThKpVV3q674vb_oekgwgOr1Q';
-    console.log('准备发送请求，使用测试 token');
-    
-    wx.request({
-      url: 'https://property.suyiiyii.top/qrcode/get',
-      method: 'POST',
-      header: {
-        'Authorization': testToken,
-        'Accept': '*/*',
-        'Host': 'property.suyiiyii.top',
-        'Connection': 'keep-alive',
-        'Content-Length': '0',
-        'content-type': 'application/json'
-      },
-      data: '',
-      success: (res) => {
-        console.log('=== 请求成功，响应数据 ===', res);
-        if (res.statusCode === 200 && res.data.code === "200") {
-          console.log('成功获取二维码数据:', res.data.data);
-          
-          if (!res.data.data || !res.data.data.id) {
-            console.log('服务器未返回二维码ID，使用模拟ID');
-            const mockData = {
-              id: 'test-qr-code-' + Date.now()
-            };
-            console.log('生成的模拟数据:', mockData);
-            resolve(mockData);
-          } else {
-            console.log('使用服务器返回的二维码数据');
-            resolve(res.data.data);
-          }
-        } else if (res.statusCode === 401 || res.data.code === "401") {
-          console.error('权限错误:', res.data);
-          reject({
-            code: 401,
-            message: '登录已过期，请重新登录'
-          });
-        } else {
-          console.error('其他错误，使用模拟ID');
-          const mockData = {
-            id: 'test-qr-code-' + Date.now()
-          };
-          console.log('生成的模拟数据:', mockData);
-          resolve(mockData);
-        }
-      },
-      fail: (err) => {
-        console.error('请求失败:', err);
-        const mockData = {
-          id: 'test-qr-code-' + Date.now()
-        };
-        console.log('请求失败，使用模拟数据:', mockData);
-        resolve(mockData);
-      }
-    });
-  });
-};
-
-/**
- * 刷新一码通二维码
- * 当二维码过期时调用此方法刷新
- * @returns {Promise} 包含新二维码数据的Promise
- */
-const refreshQrCode = () => {
-  return new Promise((resolve, reject) => {
-    const token = wx.getStorageSync('token');
-    
-    // 检查是否有token
-    if (!token) {
-      navigateToLogin();
-      reject(new Error('未登录'));
-      return;
+    // 获取用户选择的小区信息
+    const selectedCommunity = wx.getStorageSync('selectedCommunity');
+    if (!selectedCommunity || !selectedCommunity.id) {
+      console.error('未选择小区，终止请求');
+      throw new Error('请先选择小区');
     }
     
-  
-  });
-};
-
-/**
- * 验证一码通状态
- * 验证当前一码通的有效性状态
- * @param {String} qrId - 二维码ID
- * @returns {Promise} 包含验证结果的Promise
- */
-const verifyQrCode = (qrId) => {
-  return new Promise((resolve, reject) => {
-    const token = wx.getStorageSync('token');
+    const communityId = selectedCommunity.id.toString();
+    console.log('使用小区ID:', communityId);
     
-    // 检查是否有token
-    if (!token) {
-      // 没有token，提示用户登录
-      wx.showModal({
-        title: '提示',
-        content: '您尚未登录或登录已过期，请先登录',
-        showCancel: false,
-        success: () => {
-          wx.navigateTo({
-            url: '/pages/login/login'
-          });
-        }
+    const response = await new Promise((resolve, reject) => {
+      wx.request({
+        url: `https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/qrcode/verify/${qrId}`,
+        method: 'POST',
+        header: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+          'Connection': 'keep-alive',
+          'communityId': communityId // 添加小区ID
+        },
+        success: (res) => {
+          console.log('验证二维码响应:', res);
+          resolve(res);
+        },
+        fail: (err) => {
+          console.error('验证二维码请求失败:', err);
+          reject(err);
+        },
+        enableHttp2: false,
+        enableQuic: false,
+        enableCache: false
       });
-      reject(new Error('未登录'));
-      return;
+    });
+    
+    if (response.statusCode !== 200) {
+      throw new Error('验证二维码失败，服务器错误');
     }
     
-  
-  });
+    const data = response.data;
+    
+    if (data.code === "200") {
+      return data.data || data;
+    } else {
+      throw new Error(data.message || '验证失败');
+    }
+  } catch (error) {
+    console.error('验证二维码失败:', error);
+    throw error;
+  }
 };
 
 // 获取 token 的函数
@@ -222,29 +265,9 @@ const handleRequest = async (url, method, data, retryCount = 0) => {
   }
 };
 
-/**
- * 根据ID生成二维码
- * @param {String} qrId - 二维码ID
- * @returns {Promise} 包含二维码图片的Promise
- */
-const generateQRCode = (qrId) => {
-  // 使用多个备用服务，以防一个服务失败
-  const qrCodeUrls = [
-    `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qrId)}`
-  
-  ];
-  
-  return new Promise((resolve, reject) => {
-    // 直接返回URL，不下载到本地
-    console.log('直接使用在线二维码URL:', qrCodeUrls[0]);
-    resolve(qrCodeUrls[0]);
-  });
-};
-
 // 导出函数
 module.exports = {
   getQrCode,
-  refreshQrCode,
-  verifyQrCode,
-  generateQRCode
+  generateQRCode,
+  verifyQrCode
 };

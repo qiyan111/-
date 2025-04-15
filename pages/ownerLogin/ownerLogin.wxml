@@ -1,0 +1,51 @@
+<view class="login-page">
+  <!-- 状态栏占位 -->
+  <view class="status-bar"></view>
+  
+  <!-- 页面内容 -->
+  <view class="content">
+    <!-- 顶部插图和用户图标 -->
+    <view class="illustration-container">
+      <image class="user-icon" src="/images/user-icon.png" mode="aspectFit"></image>
+    </view>
+    
+    <!-- 登录文字 -->
+    <view class="login-text">
+      <text class="greeting">你好~</text>
+      <text class="intro">请登录业主账号</text>
+    </view>
+    
+    <!-- 登录表单 -->
+    <view class="login-form">
+      <!-- 用户名输入框 -->
+      <view class="input-item">
+        <view class="icon-wrapper">
+          <image class="input-icon" src="/images/user-outline.png" mode="aspectFit"></image>
+        </view>
+        <input class="input" type="text" placeholder="请输入账号" bindinput="onInputUsername" />
+      </view>
+      
+      <!-- 密码输入框 -->
+      <view class="input-item">
+        <view class="icon-wrapper">
+          <image class="input-icon" src="/images/lock-outline.png" mode="aspectFit"></image>
+        </view>
+        <input class="input" password="{{!showPassword}}" placeholder="请输入密码" bindinput="onInputPassword" />
+        <view class="password-toggle" bindtap="togglePasswordVisibility">
+          <image src="{{showPassword ? '/images/eye-off.png' : '/images/eye.png'}}" mode="aspectFit"></image>
+        </view>
+      </view>
+      
+      <!-- 登录按钮 - 修改为获取用户信息 -->
+      <button 
+        class="login-btn" 
+        open-type="getUserInfo" 
+        bind:getuserinfo="handleGetUserInfo"
+        loading="{{isLoading}}"
+        disabled="{{isLoading}}"
+      >
+        微信授权登录
+      </button>
+    </view>
+  </view>
+</view> 

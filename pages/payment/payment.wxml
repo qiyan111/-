@@ -35,7 +35,9 @@
         
         <!-- 账单底部 -->
         <view class="bill-footer">
-          <view class="bill-amount">应缴金额: {{item.amount}} 元</view>
+          <view class="bill-amount">
+            <text class="bill-amount-label">应缴金额: </text><text class="bill-amount-value">{{item.amount}} 元</text>
+          </view>
           <view class="pay-button" bindtap="payBill" data-id="{{item.id}}">缴费</view>
         </view>
       </view>

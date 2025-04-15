@@ -1,0 +1,46 @@
+<view class="container">
+  <!-- 顶部图片 - 恢复正确路径 -->
+  <image class="header-image" src="/images/community_select.png" mode="aspectFit"></image>
+  
+  <view class="content">
+    <!-- 欢迎文字 -->
+    <view class="welcome-text">
+      <text class="greeting">你好~</text>
+      <text class="prompt">请选择你的小区</text>
+    </view>
+    
+    <!-- 条件渲染：加载状态 或 列表 -->
+    <block wx:if="{{isLoading}}">
+      <view class="loading-container">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">加载中...</text>
+      </view>
+    </block>
+    
+    <block wx:else>
+      <view class="community-list">
+        <!-- 判断是否有小区数据 -->
+        <block wx:if="{{communities.length > 0}}">
+          <view 
+            wx:for="{{communities}}" 
+            wx:key="id"
+            class="community-item {{selectedCommunity && selectedCommunity.id === item.id ? 'selected' : ''}}"
+            bindtap="selectCommunity"
+            data-id="{{item.id}}">
+            <view class="community-info">
+              <text class="community-name">{{item.name}}</text>
+              <text class="community-address">{{item.address ? item.address : '无'}}</text>
+            </view>
+          </view>
+        </block>
+        <!-- 无数据提示 -->
+        <block wx:else>
+           <view class="no-data">暂无小区数据</view>
+        </block>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 确定按钮 -->
+  <button class="confirm-btn" bindtap="confirmSelection">确定</button>
+</view>

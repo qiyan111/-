@@ -15,5 +15,12 @@ Page({
         selected: 4  // 我的的索引是 4
       })
     }
+  },
+
+  // 跳转到住户认证页面
+  navigateToAuth() {
+    wx.navigateTo({
+      url: '/pages/residentAuth/residentAuth'
+    })
   }
 }) 

@@ -11,16 +11,21 @@ const app = getApp();
  */
 const getLoginCode = () => {
   return new Promise((resolve, reject) => {
+    console.log('开始获取登录凭证...');
     wx.login({
+      timeout: 10000, // 设置超时时间
       success: (res) => {
+        console.log('wx.login 成功:', res);
         if (res.code) {
           resolve(res.code);
         } else {
+          console.error('wx.login 返回异常:', res);
           reject(new Error('获取登录凭证失败'));
         }
       },
       fail: (err) => {
-        reject(new Error('微信登录失败，请重试'));
+        console.error('wx.login 失败，详细错误:', err);
+        reject(new Error(`微信登录失败: ${err.errMsg}`));
       }
     });
   });
@@ -32,35 +37,82 @@ const getLoginCode = () => {
  * @param {Object} userInfo - 用户信息
  * @returns {Promise} 包含登录结果的Promise
  */
-const loginWithCodeAndUserInfo = (code, userInfo) => {
-  return new Promise((resolve, reject) => {
+const loginWithCodeAndUserInfo = async (code, userInfo) => {
+  try {
     console.log('开始登录请求，参数:', { code, userInfo });
-    wx.request({
-      url: `https://property.suyiiyii.top/user/login?code=${code}&rawData=${encodeURIComponent(userInfo.rawData)}&signature=${encodeURIComponent(userInfo.signature)}`,
-      method: 'POST',
-      header: {
-        'Accept': '*/*',
-        'Host': 'property.suyiiyii.top',
-        'Connection': 'keep-alive'
-      },
-      success: (res) => {
-        console.log('登录响应:', res);
-        if (res.statusCode === 200 && res.data.code === "200") {
-          // 保存 token
-          const token = res.data.data;
-          wx.setStorageSync('token', token.startsWith('Bearer ') ? token : `Bearer ${token}`);
-          wx.setStorageSync('userInfo', userInfo.userInfo);
-          resolve({ token });
-        } else {
-          reject(new Error(res.data.msg || '登录失败'));
-        }
-      },
-      fail: (err) => {
-        console.error('登录请求失败:', err);
-        reject(new Error('网络请求失败，请检查网络连接'));
-      }
+    
+    // 确保参数类型正确
+    const requestData = {
+      code: code || "",
+      rawData: (userInfo && userInfo.rawData) || "",
+      signature: (userInfo && userInfo.signature) || ""
+    };
+    
+    console.log('发送的请求数据:', JSON.stringify(requestData));
+
+    const response = await new Promise((resolve, reject) => {
+      wx.request({
+        url: 'https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/user/login',
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+          'Connection': 'keep-alive'
+        },
+        data: requestData,
+        success: (res) => {
+          console.log('登录响应详情:', res);
+          resolve(res);
+        },
+        fail: (err) => {
+          console.error('请求失败:', err);
+          reject(err);
+        },
+        enableHttp2: false,
+        enableQuic: false,
+        enableCache: false
+      });
     });
-  });
+
+    // 检查响应状态
+    if (!response.data) {
+      throw new Error('服务器响应异常');
+    }
+
+    // 检查服务器错误状态码
+    if (response.statusCode >= 500) {
+      console.error('服务器内部错误:', response.data);
+      throw new Error('服务器暂时不可用，请稍后再试');
+    }
+
+    console.log('登录响应数据:', response.data);
+    
+    if (response.statusCode === 200 && response.data.code === "200") {
+      const token = response.data.data || "";
+      if (!token) {
+        throw new Error('服务器返回的token为空');
+      }
+      
+      // 保存token
+      wx.setStorageSync('token', token.startsWith('Bearer ') ? token : `Bearer ${token}`);
+      
+      // 保存用户信息
+      if (userInfo && userInfo.userInfo) {
+        wx.setStorageSync('userInfo', userInfo.userInfo);
+      }
+      
+      return { token };
+    } else {
+      throw new Error(response.data.msg || '登录失败，请重试');
+    }
+  } catch (error) {
+    console.error('登录请求处理失败:', error);
+    if (error.errMsg && error.errMsg.includes('request:fail')) {
+      throw new Error('网络连接失败，请检查网络');
+    }
+    throw error;
+  }
 };
 
 /**
@@ -88,74 +140,61 @@ const logout = () => {
 /**
  * 获取认证头信息
  * 用于API请求时添加认证信息
- * @returns {Object} 包含Authorization的头信息对象
  */
 const getAuthHeader = () => {
   const token = wx.getStorageSync('token');
   return {
     'Authorization': token,
     'Accept': '*/*',
-    'Host': 'property.suyiiyii.top',
+    'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
     'Connection': 'keep-alive'
   };
 };
 
-// 登录服务
-const login = () => {
+/**
+ * 获取用户信息
+ * @returns {Promise} 包含用户信息的Promise
+ */
+const getUserProfile = () => {
   return new Promise((resolve, reject) => {
-    // 先调用 wx.login 获取 code
-    wx.login({
-      success: (loginRes) => {
-        if (loginRes.code) {
-          // 获取用户信息
-          wx.getUserProfile({
-            desc: '需要您的授权才能使用开门功能',
-            success: (userRes) => {
-              console.log('获取用户信息成功:', userRes);
-              // 将 code、rawData 和 signature 发送给后端
-              wx.request({
-                url: 'https://property.suyiiyii.top/user/login',
-                method: 'POST',
-                data: {
-                  code: loginRes.code,
-                  rawData: userRes.rawData,
-                  signature: userRes.signature,
-                  encryptedData: userRes.encryptedData,
-                  iv: userRes.iv
-                },
-                success: (res) => {
-                  console.log('登录响应:', res);
-                  if (res.statusCode === 200 && res.data.code === 200) {
-                    // 保存 token
-                    const token = res.data.data.token;
-                    wx.setStorageSync('token', token.startsWith('Bearer ') ? token : `Bearer ${token}`);
-                    wx.setStorageSync('userInfo', userRes.userInfo);
-                    resolve(res.data.data);
-                  } else {
-                    reject(new Error(res.data.msg || '登录失败'));
-                  }
-                },
-                fail: (err) => {
-                  console.error('登录请求失败:', err);
-                  reject(new Error('网络请求失败，请检查网络连接'));
-                }
-              });
-            },
-            fail: (err) => {
-              console.error('获取用户信息失败:', err);
-              reject(new Error('您需要授权才能使用开门功能'));
-            }
-          });
-        } else {
-          reject(new Error('获取登录凭证失败，请重试'));
-        }
+    wx.getUserProfile({
+      desc: '用于完善会员资料',
+      lang: 'zh_CN',
+      success: (res) => {
+        console.log('获取用户信息成功:', res);
+        resolve(res);
       },
       fail: (err) => {
-        console.error('wx.login 失败:', err);
-        reject(new Error('微信登录失败，请重试'));
+        console.error('获取用户信息失败:', err);
+        reject(new Error('获取用户信息失败，请重新授权'));
       }
     });
   });
+};
+
+/**
+ * 完整的登录流程
+ */
+const login = async () => {
+  try {
+    console.log('开始完整登录流程');
+    // 先获取登录码
+    const code = await getLoginCode();
+    console.log('获取到登录码:', code);
+    
+    // 获取用户信息
+    const userInfo = await getUserProfile();
+    console.log('获取到用户信息:', userInfo);
+    
+    // 执行登录
+    const loginResult = await loginWithCodeAndUserInfo(code, userInfo);
+    console.log('登录成功:', loginResult);
+    
+    return loginResult;
+  } catch (error) {
+    console.error('登录流程失败:', error);
+    throw error;
+  }
 };
 
 // 检查是否已登录
@@ -186,5 +225,6 @@ module.exports = {
   login,
   checkLogin,
   getToken,
-  setToken
+  setToken,
+  getUserProfile
 }; 

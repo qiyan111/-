@@ -12,12 +12,16 @@ Page({
       { id: 3, name: "报事维修", icon: "/images/repair.png", color: "#3DCCCB" },
       { id: 4, name: "车位查询", icon: "/images/parking.png", color: "#FA9B4D" },
       { id: 5, name: "生活缴费", icon: "/images/payment.png", color: "#46D0A8" }
-    ]
+    ],
+    // 添加一个状态控制引导层的显示
+    showCommunityGuide: true
   },
   
   onLoad() {
     // 启动消息监听
     this.startMessageListener();
+    // 检查是否选择过小区
+    this.updateCommunityInfo();
   },
   
   onShow() {
@@ -26,6 +30,34 @@ Page({
         selected: 0  // 首页的索引是 0
       })
     }
+    
+    // 每次页面显示时更新小区信息
+    this.updateCommunityInfo();
+  },
+  
+  // 更新小区信息
+  updateCommunityInfo() {
+    const selectedCommunity = wx.getStorageSync('selectedCommunity');
+    if (selectedCommunity) {
+      // 如果有选择的小区，则更新地址并隐藏引导层
+      this.setData({
+        showCommunityGuide: false,
+        address: selectedCommunity.communityName || selectedCommunity.name // 兼容不同格式的小区数据
+      });
+    } else {
+      // 如果没有选择的小区，则显示引导层
+      this.setData({
+        showCommunityGuide: true,
+        address: "请选择小区"
+      });
+    }
+  },
+  
+  // 跳转到选择小区页面
+  navigateToCommunitySelect() {
+    wx.navigateTo({
+      url: '/pages/selectCommunity/selectCommunity'
+    });
   },
   
   // 启动消息监听
@@ -60,7 +92,7 @@ Page({
     // 根据功能ID执行不同操作
     switch(functionItem.name) {
       case '车位查询':
-        this.navigateToParkingQuery();
+        this.handleParkingQuery();
         break;
       case '门禁控制':
         // 跳转到门禁控制页面
@@ -142,10 +174,21 @@ Page({
   },
   
   // 添加跳转方法
-  navigateToParkingQuery() {
+  handleParkingQuery() {
+    console.log('点击了车位查询按钮');
     wx.navigateTo({
-      url: '/pages/parkingQuery/parkingQuery'
-    })
+      url: '/pages/parkingQuery/parkingQuery',
+      success: () => {
+        console.log('成功跳转到车位查询页面');
+      },
+      fail: (error) => {
+        console.error('跳转到车位查询页面失败:', error);
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
+    });
   },
   
   // 添加生活缴费页面跳转方法
@@ -180,5 +223,58 @@ Page({
     wx.navigateTo({
       url: '/pages/visitorPass/visitorPass'
     })
+  },
+  
+  // 添加测试函数
+  testParkingAPI() {
+    console.log('测试停车场API');
+    const parkingService = require('../../utils/parkingService');
+    
+    // 检查登录状态
+    const authService = require('../../utils/authService');
+    const isLoggedIn = authService.checkLogin();
+    console.log('当前登录状态:', isLoggedIn ? '已登录' : '未登录');
+    
+    if (isLoggedIn) {
+      wx.showLoading({ title: '获取数据中...' });
+      
+      parkingService.getParkingInfo()
+        .then(data => {
+          wx.hideLoading();
+          console.log('获取到停车场信息:', data);
+          wx.showModal({
+            title: '停车场信息',
+            content: `总车位: ${data.totalCount || '未知'}\n空闲车位: ${data.availableCount || '未知'}`,
+            showCancel: false
+          });
+        })
+        .catch(error => {
+          wx.hideLoading();
+          console.error('获取停车场信息失败:', error);
+          wx.showModal({
+            title: '获取失败',
+            content: error.message || '未知错误',
+            showCancel: false
+          });
+        });
+    } else {
+      wx.showModal({
+        title: '未登录',
+        content: '请先登录后再尝试',
+        showCancel: false
+      });
+    }
+  },
+  
+  // 点击选择小区
+  goToCommunitySelect: function() {
+    wx.navigateTo({
+      url: '/pages/communitySelect/communitySelect',
+      success: () => {
+        this.setData({
+          showCommunityGuide: false
+        });
+      }
+    });
   }
 })

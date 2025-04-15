@@ -1,7 +1,7 @@
 Page({
   data: {
     activeTab: 0, // 0: 待缴费, 1: 已缴费
-    bills: [
+    pendingBills: [ // 待缴费数据
       {
         id: '1',
         billNo: 'XXXXXXXXXXXX',
@@ -11,50 +11,29 @@ Page({
         amount: 'XX'
       }
     ],
-    // bills: [] // 如需显示无账单状态可以使用空数组
+    paidBills: [], // 已缴费数据 (可添加模拟数据)
+    bills: [] // 当前显示的数据
   },
   
   onLoad() {
-    // 模拟获取缴费数据
-    this.fetchBillData();
-  },
-  
-  // 获取账单数据
-  fetchBillData() {
-    // 这里以后将替换为实际的API调用
-    // 示例数据
-    if (this.data.activeTab === 0) {
-      // 待缴费数据
-      this.setData({
-        bills: [
-          {
-            id: '1',
-            billNo: 'XXXXXXXXXXXX',
-            billType: '水电费',
-            detail: '用水 XX吨，用电 XX度',
-            period: 'X月X日-X月X日',
-            amount: 'XX'
-          }
-        ]
-      });
-    } else {
-      // 已缴费数据 - 为空以显示暂无消息
-      this.setData({
-        bills: []
-      });
-    }
+    // 初始化时根据 activeTab 设置 bills
+    this.setData({
+      bills: this.data.activeTab === 0 ? this.data.pendingBills : this.data.paidBills
+    });
+    // 如果需要从 API 加载真实数据，在这里调用修改后的 fetchBillData
   },
   
   // 切换标签
   switchTab(e) {
-    const index = e.currentTarget.dataset.index;
+    const index = parseInt(e.currentTarget.dataset.index);
+    if (index === this.data.activeTab) return; // 避免重复点击当前标签
+
     console.log('切换到标签:', index);
     this.setData({
-      activeTab: index
+      activeTab: index,
+      // 根据新的 activeTab 切换 bills 的数据源
+      bills: index === 0 ? this.data.pendingBills : this.data.paidBills
     });
-    
-    // 根据不同标签加载不同数据
-    this.fetchBillData();
   },
   
   // 点击缴费按钮

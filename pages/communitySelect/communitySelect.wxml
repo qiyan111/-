@@ -1,0 +1,50 @@
+<view class="community-select">
+  <!-- 顶部插图 -->
+  <view class="header-image-container">
+    <image class="header-image" src="/images/community_select.png" mode="aspectFit"></image>
+  </view>
+  
+  <!-- 欢迎文字 -->
+  <view class="welcome-text">
+    <text class="greeting">你好~</text>
+    <text class="prompt">请选择你的小区</text>
+  </view>
+  
+  <!-- 小区列表 -->
+  <view class="community-list">
+    <!-- 第一个小区（蓝色按钮） -->
+    <view class="community-item blue-button" 
+          bindtap="selectCommunity" 
+          data-id="1">
+      <text class="community-name">骏文雅苑</text>
+      <text class="community-address">广东省广州市番禺区文博路 113 号</text>
+    </view>
+    
+    <!-- 其他小区 -->
+    <view class="community-item"
+          bindtap="selectCommunity"
+          data-id="2">
+      <text class="community-name">小区名称</text>
+      <text class="community-address">具体地址XXXXXXXXXXXX</text>
+    </view>
+    
+    <view class="community-item"
+          bindtap="selectCommunity"
+          data-id="3">
+      <text class="community-name">小区名称</text>
+      <text class="community-address">具体地址XXXXXXXXXXXX</text>
+    </view>
+    
+    <view class="community-item"
+          bindtap="selectCommunity"
+          data-id="4">
+      <text class="community-name">小区名称</text>
+      <text class="community-address">具体地址XXXXXXXXXXXX</text>
+    </view>
+  </view>
+  
+  <!-- 确定按钮 -->
+  <view class="btn-container">
+    <button class="confirm-btn" bindtap="confirmSelection">确定</button>
+  </view>
+</view> 

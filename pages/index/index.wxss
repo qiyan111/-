@@ -99,6 +99,9 @@ page {
   font-size: 32rpx;
   justify-content: flex-start;
   z-index: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
 }
 
 .address-icon {
@@ -258,3 +261,57 @@ page {
 }
 
 /* 保留其他页面样式 */
+
+/* 添加这些样式 */
+.community-guide {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guide-content {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.guide-image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 40rpx;
+}
+
+.guide-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.guide-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.guide-subtitle {
+  font-size: 30rpx;
+  color: #333;
+}
+
+.guide-button {
+  background-color: #2b85e4;
+  color: white;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  padding: 10rpx 0;
+  width: 60%;
+}

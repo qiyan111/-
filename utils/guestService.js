@@ -1,68 +1,220 @@
- /**
+/**
  * 访客服务
- * 封装与访客相关的所有接口请求
+ * 封装与访客申请相关的所有接口请求
  */
 
 // 引入认证服务
 const authService = require('./authService');
 
 /**
- * 提交访客申请
- * @param {Object} formData 访客申请表单数据
- * @param {string} formData.guestName - 访客姓名
- * @param {string} formData.guestPhone - 访客手机号
- * @param {string} formData.visitReason - 访问原因
- * @param {string} formData.visitTime - 访问时间
- * @returns {Promise} 包含访客码数据的Promise
+ * 确保用户已登录
+ * @returns {Promise} 登录状态的Promise
  */
-const submitGuestForm = (formData) => {
-  return new Promise((resolve, reject) => {
-    console.log('开始提交访客申请...');
+const ensureLogin = async () => {
+  const token = authService.getToken();
+  if (!token) {
+    console.log('未检测到登录状态，尝试自动登录');
+    try {
+      await authService.login();
+      console.log('自动登录成功');
+      return true;
+    } catch (err) {
+      console.error('自动登录失败:', err);
+      throw new Error('请先登录');
+    }
+  }
+  return true;
+};
+
+/**
+ * 提交访客申请
+ * @param {Object} formData - 访客申请表单数据
+ * @param {String} communityId - 社区ID，默认为1
+ * @returns {Promise} 包含提交结果的Promise
+ */
+const submitGuestForm = async (formData, communityId = '1') => {
+  try {
+    console.log('=== 开始提交访客申请 ===');
+    const token = authService.getToken();
     
-    // 使用硬编码的 token
-    const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxODQyMDQ3MTc2fQ.eR8U4B92t6xoRjzKocEThKpVV3q674vb_oekgwgOr1Q';
-    console.log('使用硬编码 token:', token);
+    if (!token) {
+      console.error('未获取到token，无法提交访客申请');
+      throw new Error('请先登录');
+    }
     
-    wx.request({
-      url: 'https://property.suyiiyii.top/guest/form',
-      method: 'POST',
-      header: {
-        'Authorization': token,
-        'Accept': '*/*',
-        'Host': 'property.suyiiyii.top',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json'
-      },
-      data: formData || {}, // 如果没有提供表单数据，则发送空对象
-      success: (res) => {
-        console.log('访客申请响应:', res);
-        if (res.statusCode === 200 && res.data.code === "200") {
-          // 如果成功提交访客申请
-          console.log('成功提交访客申请:', res.data.data);
-          resolve(res.data.data);
-        } else if (res.statusCode === 401 || res.data.code === "401") {
-          console.error('提交访客申请失败，权限错误:', res.data);
-          reject({
-            code: 401,
-            message: '登录已过期，请重新登录'
-          });
-        } else {
-          console.error('提交访客申请失败，其他错误:', res.data);
-          reject({
-            code: res.data.code,
-            message: res.data.msg || '提交访客申请失败'
-          });
-        }
-      },
-      fail: (err) => {
-        console.error('提交访客申请请求失败:', err);
-        reject({
-          code: -1,
-          message: '网络连接失败'
-        });
-      }
+    console.log('提交访客申请，表单数据:', formData);
+    
+    const response = await new Promise((resolve, reject) => {
+      wx.request({
+        url: 'https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/guest/form',
+        method: 'POST',
+        header: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+          'Connection': 'keep-alive',
+          'communityId': communityId // 添加communityId头
+        },
+        data: formData || {}, // 即使是空对象也要传递
+        success: (res) => {
+          console.log('提交访客申请响应:', res);
+          resolve(res);
+        },
+        fail: (err) => {
+          console.error('提交访客申请失败:', err);
+          reject(err);
+        },
+        enableHttp2: false,
+        enableQuic: false,
+        enableCache: false
+      });
     });
-  });
+    
+    // 处理响应
+    if (response.statusCode !== 200) {
+      console.error('请求状态码异常:', response.statusCode);
+      throw new Error('提交访客申请失败，服务器错误');
+    }
+    
+    const data = response.data;
+    console.log('访客申请响应数据:', data);
+    
+    if (data.code === "200" && data.message === "success") {
+      return data.data || { success: true };
+    } else {
+      throw new Error(data.message || '提交访客申请失败');
+    }
+  } catch (error) {
+    console.error('提交访客申请失败:', error);
+    throw error;
+  }
+};
+
+/**
+ * 获取访客申请列表
+ * @param {String} communityId - 社区ID，默认为1
+ * @returns {Promise} 包含访客申请列表的Promise
+ */
+const getGuestFormList = async (communityId = '1') => {
+  try {
+    console.log('=== 开始获取访客申请列表 ===');
+    const token = authService.getToken();
+    
+    if (!token) {
+      console.error('未获取到token，无法获取访客申请列表');
+      throw new Error('请先登录');
+    }
+    
+    const response = await new Promise((resolve, reject) => {
+      wx.request({
+        url: 'https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/guest/list',
+        method: 'GET',
+        header: {
+          'Authorization': token,
+          'Accept': '*/*',
+          'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+          'Connection': 'keep-alive',
+          'communityId': communityId
+        },
+        success: (res) => {
+          console.log('获取访客申请列表响应:', res);
+          resolve(res);
+        },
+        fail: (err) => {
+          console.error('获取访客申请列表失败:', err);
+          reject(err);
+        },
+        enableHttp2: false,
+        enableQuic: false,
+        enableCache: false
+      });
+    });
+    
+    // 处理响应
+    if (response.statusCode !== 200) {
+      console.error('请求状态码异常:', response.statusCode);
+      throw new Error('获取访客申请列表失败，服务器错误');
+    }
+    
+    const data = response.data;
+    console.log('访客申请列表响应数据:', data);
+    
+    if (data.code === "200") {
+      return data.data || [];
+    } else {
+      throw new Error(data.message || '获取访客申请列表失败');
+    }
+  } catch (error) {
+    console.error('获取访客申请列表失败:', error);
+    throw error;
+  }
+};
+
+/**
+ * 获取访客申请详情
+ * @param {String} formId - 申请表单ID
+ * @param {String} communityId - 社区ID，默认为1
+ * @returns {Promise} 包含访客申请详情的Promise
+ */
+const getGuestFormDetail = async (formId, communityId = '1') => {
+  try {
+    console.log('=== 开始获取访客申请详情 ===');
+    const token = authService.getToken();
+    
+    if (!token) {
+      console.error('未获取到token，无法获取访客申请详情');
+      throw new Error('请先登录');
+    }
+    
+    if (!formId) {
+      console.error('未提供formId，无法获取访客申请详情');
+      throw new Error('请提供有效的表单ID');
+    }
+    
+    const response = await new Promise((resolve, reject) => {
+      wx.request({
+        url: `https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/guest/detail/${formId}`,
+        method: 'GET',
+        header: {
+          'Authorization': token,
+          'Accept': '*/*',
+          'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+          'Connection': 'keep-alive',
+          'communityId': communityId
+        },
+        success: (res) => {
+          console.log('获取访客申请详情响应:', res);
+          resolve(res);
+        },
+        fail: (err) => {
+          console.error('获取访客申请详情失败:', err);
+          reject(err);
+        },
+        enableHttp2: false,
+        enableQuic: false,
+        enableCache: false
+      });
+    });
+    
+    // 处理响应
+    if (response.statusCode !== 200) {
+      console.error('请求状态码异常:', response.statusCode);
+      throw new Error('获取访客申请详情失败，服务器错误');
+    }
+    
+    const data = response.data;
+    console.log('访客申请详情响应数据:', data);
+    
+    if (data.code === "200") {
+      return data.data || {};
+    } else {
+      throw new Error(data.message || '获取访客申请详情失败');
+    }
+  } catch (error) {
+    console.error('获取访客申请详情失败:', error);
+    throw error;
+  }
 };
 
 /**
@@ -83,5 +235,7 @@ const generateGuestQRCode = (guestCodeId) => {
 // 导出函数
 module.exports = {
   submitGuestForm,
+  getGuestFormList,
+  getGuestFormDetail,
   generateGuestQRCode
 };

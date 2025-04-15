@@ -1,0 +1,151 @@
+/* pages/residentAuth/residentAuth.wxss */
+.auth-page {
+  background-color: #f7f8fa;
+  min-height: 100vh;
+  padding-top: 40px; /* 给整个页面添加上内边距，避免被状态栏遮挡 */
+}
+
+/* 自定义导航栏 */
+.header {
+  background: #fff;
+  height: 44px; /* 标准导航栏高度 */
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+  position: relative; /* 改回相对定位 */
+  border-bottom: 1rpx solid #eee;
+  margin-bottom: 20px; /* 添加底部外边距，与内容区域分隔 */
+}
+
+.back-icon {
+  width: 48rpx;
+  height: 48rpx;
+  position: absolute;
+  left: 30rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.back-icon image {
+  width: 20rpx;
+  height: 36rpx; /* 根据你的箭头图片调整 */
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+/* 表单区域 */
+.form-area {
+  margin-top: 10px !important; /* 覆盖内联样式的margin-top */
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  padding-bottom: 20rpx;
+}
+
+/* 卡片样式 */
+.form-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 让内容靠两边 */
+}
+
+.label {
+  width: 160rpx;
+  font-size: 28rpx;
+  color: #333;
+  flex-shrink: 0; /* 防止标签被压缩 */
+  margin-right: 20rpx;
+}
+
+/* 住户类型选项 */
+.resident-type-options {
+  display: flex;
+  align-items: center;
+  flex: 1; /* 占据剩余空间 */
+}
+
+.resident-type-option {
+  display: flex;
+  align-items: center;
+  margin-right: 40rpx; /* 选项间距 */
+}
+
+.radio-icon-custom {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 10rpx;
+}
+
+.radio-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 右侧额外图标 */
+.extra-icons {
+  display: flex;
+  align-items: center;
+  gap: 20rpx; /* 图标间距 */
+}
+.icon-more, .icon-target { /* 假设的图标类名 */
+  width: 36rpx;
+  height: 36rpx;
+}
+
+/* 手机号码 */
+.input {
+  flex: 1; /* 占据剩余空间 */
+  font-size: 28rpx;
+  color: #333;
+  text-align: left; /* 确保文本左对齐 */
+}
+
+.placeholder {
+  color: #ccc;
+  font-size: 28rpx;
+}
+
+/* 申请认证按钮容器 */
+.button-container {
+  padding: 0 30rpx; /* 添加左右内边距让按钮居中 */
+  margin-top: 60rpx;
+}
+
+.submit-btn {
+  width: 100%; /* 按钮宽度充满容器 */
+  height: 88rpx;
+  /* 移除 line-height，使用 flex 布局实现垂直居中 */
+  /* line-height: 88rpx; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 44rpx;
+  background-color: #1989fa;
+  color: #fff;
+  font-size: 32rpx;
+  border: none;
+  /* 确保微信小程序原生按钮的内边距不影响布局 */
+  padding: 0;
+}
+
+.submit-btn[loading]::before {
+  font-size: 28rpx;
+}
+
+/* 移除之前 radio 的样式 */
+.radio-group,
+.radio-item radio,
+.radio-icon {
+  display: none;
+} 

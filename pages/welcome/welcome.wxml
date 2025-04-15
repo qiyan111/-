@@ -1,0 +1,24 @@
+<view class="welcome-page">
+  <!-- 状态栏占位 -->
+  <view class="status-bar"></view>
+  
+  <!-- 页面内容 -->
+  <view class="content">
+    <!-- 顶部插图和用户图标 -->
+    <view class="illustration-container">
+      <image class="user-icon" src="/images/user-icon.png" mode="aspectFit"></image>
+    </view>
+    
+    <!-- 欢迎文字 -->
+    <view class="welcome-text">
+      <text class="greeting">你好~</text>
+      <text class="intro">欢迎来到智慧物业小程序！</text>
+    </view>
+    
+    <!-- 身份选择按钮 -->
+    <view class="button-group">
+      <button class="login-btn owner-login" bindtap="ownerLogin">业主登录</button>
+      
+    </view>
+  </view>
+</view> 

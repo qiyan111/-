@@ -9,6 +9,6 @@
     <block wx:else>
       <image src="{{selected === index ? item.selectedIconPath : item.iconPath}}" class="tab-bar-icon"></image>
     </block>
-    <view class="text">{{item.text}}</view>
+    <view class="tab-bar-text">{{item.text}}</view>
   </view>
 </view> 
