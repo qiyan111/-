@@ -27,19 +27,33 @@
       <text>预约表</text>
     </view>
 
-    <!-- 表单内容 - 只在未显示授权按钮时显示 -->
-    <view class="form-content" wx:if="{{!showAuthButton}}">
+    <!-- 加载指示器 -->
+    <view class="loading-container" wx:if="{{isLoading && !showAuthButton}}">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- 表单内容 - 只在未显示授权按钮且不在加载状态时显示 -->
+    <view class="form-content" wx:if="{{!showAuthButton && !isLoading}}">
       <!-- 预约地点 -->
       <view class="form-item">
         <text class="label">预约地点</text>
         <view class="location-container {{errors.location ? 'error-border' : ''}}">
           <view class="location-tags">
-            <view class="location-tag {{selectedLocation === '场地1' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地1">场地1</view>
-            <view class="location-tag {{selectedLocation === '场地2' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地2">场地2</view>
-            <view class="location-tag {{selectedLocation === '场地3' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地3">场地3</view>
-            <view class="location-tag {{selectedLocation === '场地4' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地4">场地4</view>
-            <view class="location-tag {{selectedLocation === '场地5' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地5">场地5</view>
-            <view class="location-tag {{selectedLocation === '场地6' ? 'selected' : ''}}" bindtap="selectLocation" data-location="场地6">场地6</view>
+            <block wx:if="{{locations.length > 0}}">
+              <view 
+                wx:for="{{locations}}" 
+                wx:key="id" 
+                class="location-tag {{selectedLocation === item.id ? 'selected' : ''}}" 
+                bindtap="selectLocation" 
+                data-location="{{item.id}}"
+              >
+                {{item.name}}
+              </view>
+            </block>
+            <view wx:if="{{locations.length === 0}}" class="no-locations">
+              暂无可预约场地
+            </view>
           </view>
           <text wx:if="{{errors.location}}" class="error-text">请选择预约地点</text>
         </view>

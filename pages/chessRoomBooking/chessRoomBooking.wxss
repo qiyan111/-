@@ -271,4 +271,50 @@
   color: #fff;
   font-size: 32rpx;
   text-align: center;
+}
+
+/* 加载指示器样式 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 0;
+}
+
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 4rpx solid #f3f3f3;
+  border-top: 4rpx solid #1989fa;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 无场地提示样式 */
+.no-locations {
+  width: 100%;
+  padding: 40rpx 0;
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 授权按钮样式 */
+.auth-button {
+  margin: 60rpx auto;
+  width: 80%;
+  background-color: #1989fa;
+  color: white;
 } 

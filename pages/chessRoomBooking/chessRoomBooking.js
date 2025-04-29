@@ -15,7 +15,9 @@ Page({
       phone: false
     },
     showSuccessModal: false,
-    showAuthButton: false  // 添加显示授权按钮的状态
+    showAuthButton: false,  // 添加显示授权按钮的状态
+    locations: [],          // 从API获取的场地列表
+    isLoading: false        // 加载状态
   },
   
   onLoad: function() {
@@ -25,7 +27,42 @@ Page({
       this.setData({
         showAuthButton: true
       });
+    } else {
+      // 已登录，获取可预约房间列表
+      this.fetchRooms();
     }
+  },
+  
+  // 获取可预约房间列表
+  fetchRooms: function() {
+    this.setData({ isLoading: true });
+    
+    appointmentService.getAllRooms()
+      .then(rooms => {
+        console.log('获取到房间列表:', rooms);
+        this.setData({
+          locations: rooms || [],
+          isLoading: false
+        });
+      })
+      .catch(err => {
+        console.error('获取房间列表失败:', err);
+        this.setData({ isLoading: false });
+        
+        if (err.code === 401) {
+          // 未登录或token过期
+          this.setData({ showAuthButton: true });
+          wx.showToast({
+            title: '请登录后查看',
+            icon: 'none'
+          });
+        } else {
+          wx.showToast({
+            title: err.message || '获取房间列表失败',
+            icon: 'none'
+          });
+        }
+      });
   },
   
   // 初始化时间选择器数组
@@ -72,7 +109,8 @@ Page({
   selectLocation: function(e) {
     const location = e.currentTarget.dataset.location;
     this.setData({
-      selectedLocation: location
+      selectedLocation: location,
+      'errors.location': false
     });
   },
   
@@ -173,6 +211,8 @@ Page({
               title: '登录成功',
               icon: 'success'
             });
+            // 登录成功后获取房间列表
+            this.fetchRooms();
           })
           .catch(err => {
             console.error('登录失败:', err);
@@ -242,6 +282,7 @@ Page({
 
     // 调用预约服务
     appointmentService.addAppointment({
+      roomId: this.data.selectedLocation, // 使用选择的地点ID
       appointmentTime: appointmentTime,
       userName: this.data.name,
       userPhone: this.data.phone

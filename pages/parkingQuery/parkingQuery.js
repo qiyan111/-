@@ -7,12 +7,16 @@ Page({
   onLoad: function() {
     this.getParkingData();
   },
-
+     
+  
+ 
   getParkingData: function() {
+    // 从缓存获取 Token
+    const token = wx.getStorageSync('token');
     // 设置接口请求头
     let header = {
       'communityId': '1',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxODQyMDQ3MTc2fQ.eR8U4B92t6xoRjzKocEThKpVV3q674vb_oekgwgOr1Q',
+      'Authorization': token,
       'Accept': '*/*'
     };
 
@@ -32,6 +36,18 @@ Page({
           });
         } else {
           console.error('获取车位数据异常:', res);
+          if (res.statusCode === 200 && res.data && res.data.code === "40100") {
+            // 特殊处理 401 错误
+            wx.showToast({
+              title: '登录已过期，请重新登录', // 更明确的提示
+              icon: 'none',
+              duration: 2000,
+              complete: () => {
+                // 跳转到登录页 (使用reLaunch清空页面栈)
+                wx.reLaunch({ url: "/pages/welcome/welcome" });
+              }
+            });
+          }
           wx.showToast({
             title: '获取数据失败',
             icon: 'none'

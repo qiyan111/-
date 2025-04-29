@@ -42,10 +42,12 @@ const getQrCode = async () => {
   // 确保token格式正确，去除可能重复的Bearer前缀
   let token = rawToken;
   if (token && token.startsWith('Bearer ')) {
-    token = token.replace('Bearer ', '');
+    token = token;
+  } else if (token) {
+    token = `Bearer ${token}`;
+  } else {
+    token = '';
   }
-  // 现在给token添加正确的Bearer前缀
-  token = token ? `Bearer ${token}` : '';
   
   console.log('处理后的token:', token);
   
@@ -73,25 +75,36 @@ const getQrCode = async () => {
     console.log('communityId数据类型:', typeof communityId);
   }
   
-  // 构建请求头
-  const headers = {
-    'Authorization': token, // 使用处理后的token，不再添加'token'字段
-    'communityId': communityId
-  };
-  console.log('完整的请求头信息:', JSON.stringify(headers));
-  
-  // 返回请求并添加日志
-  return request({
-    url: '/qrcode/get',
-    method: 'POST',
-    header: headers  // 使用header而不是headers 
-  }).then(response => {
-    console.log('获取二维码成功，响应数据:', JSON.stringify(response));
-    return response;
-  }).catch(error => {
-    console.error('获取二维码失败，错误信息:', JSON.stringify(error));
-    console.error('请求参数回顾 - token:', token, 'communityId:', communityId);
-    throw error;
+  return new Promise((resolve, reject) => {
+    // 构建请求头
+    const headers = {
+      'Authorization': token,
+      'Accept': '*/*',
+      'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+      'Connection': 'keep-alive',
+      'communityId': communityId
+    };
+    
+    console.log('完整的请求头信息:', JSON.stringify(headers));
+    
+    wx.request({
+      url: 'https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/qrcode/get',
+      method: 'POST',
+      header: headers,
+      success: (res) => {
+        console.log('获取二维码成功，响应数据:', JSON.stringify(res.data));
+        if (res.statusCode === 200 && res.data) {
+          resolve(res.data.data || res.data);
+        } else {
+          console.error('获取二维码API返回错误:', res.statusCode, res.data);
+          reject(res.data || { message: '服务器返回错误' });
+        }
+      },
+      fail: (err) => {
+        console.error('获取二维码请求失败:', err);
+        reject(err || { message: '网络请求失败' });
+      }
+    });
   });
 };
 
@@ -117,66 +130,72 @@ const generateQRCode = (qrId) => {
  * @returns {Promise} 验证结果的Promise
  */
 const verifyQrCode = async (qrId) => {
-  try {
-    await ensureLogin();
-    console.log('=== 开始验证二维码 ===');
-    
-    const token = authService.getToken();
-    if (!token) {
-      throw new Error('未登录');
-    }
-    
-    // 获取用户选择的小区信息
-    const selectedCommunity = wx.getStorageSync('selectedCommunity');
-    if (!selectedCommunity || !selectedCommunity.id) {
-      console.error('未选择小区，终止请求');
-      throw new Error('请先选择小区');
-    }
-    
-    const communityId = selectedCommunity.id.toString();
-    console.log('使用小区ID:', communityId);
-    
-    const response = await new Promise((resolve, reject) => {
-      wx.request({
-        url: `https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/qrcode/verify/${qrId}`,
-        method: 'POST',
-        header: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
-          'Connection': 'keep-alive',
-          'communityId': communityId // 添加小区ID
-        },
-        success: (res) => {
-          console.log('验证二维码响应:', res);
-          resolve(res);
-        },
-        fail: (err) => {
-          console.error('验证二维码请求失败:', err);
-          reject(err);
-        },
-        enableHttp2: false,
-        enableQuic: false,
-        enableCache: false
-      });
-    });
-    
-    if (response.statusCode !== 200) {
-      throw new Error('验证二维码失败，服务器错误');
-    }
-    
-    const data = response.data;
-    
-    if (data.code === "200") {
-      return data.data || data;
-    } else {
-      throw new Error(data.message || '验证失败');
-    }
-  } catch (error) {
-    console.error('验证二维码失败:', error);
-    throw error;
+  console.log('=== 开始验证二维码 ===');
+  console.log('二维码ID:', qrId);
+  
+  // 检查登录状态
+  const rawToken = wx.getStorageSync('token');
+  console.log('原始token值:', rawToken);
+  
+  // 确保token格式正确
+  let token = rawToken;
+  if (token && token.startsWith('Bearer ')) {
+    token = token;
+  } else if (token) {
+    token = `Bearer ${token}`;
+  } else {
+    token = '';
   }
+  
+  if (!token) {
+    console.error('未检测到token，用户未登录');
+    return Promise.reject({ message: '未登录' });
+  }
+  
+  // 获取已选择的小区信息
+  const selectedCommunity = wx.getStorageSync('selectedCommunity');
+  console.log('从Storage获取的小区信息:', JSON.stringify(selectedCommunity));
+  
+  if (!selectedCommunity || !selectedCommunity.id) {
+    console.error('未选择小区或小区信息不完整');
+    return Promise.reject({ message: '请先选择小区' });
+  }
+  
+  const communityId = selectedCommunity.id;
+  console.log('将要使用的小区ID:', communityId);
+  
+  return new Promise((resolve, reject) => {
+    // 构建请求头
+    const headers = {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
+      'Connection': 'keep-alive',
+      'communityId': communityId
+    };
+    
+    console.log('完整的请求头信息:', JSON.stringify(headers));
+    
+    wx.request({
+      url: `https://property-func-dcwdljroao.cn-shenzhen.fcapp.run/qrcode/verify/${qrId}`,
+      method: 'POST',
+      header: headers,
+      success: (res) => {
+        console.log('验证二维码响应:', res);
+        if (res.statusCode === 200 && res.data && res.data.code === "200") {
+          resolve(res.data.data || res.data);
+        } else {
+          console.error('验证二维码API返回错误:', res.statusCode, res.data);
+          reject(res.data || { message: '服务器返回错误' });
+        }
+      },
+      fail: (err) => {
+        console.error('验证二维码请求失败:', err);
+        reject(err || { message: '网络请求失败' });
+      }
+    });
+  });
 };
 
 // 获取 token 的函数

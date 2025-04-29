@@ -18,8 +18,10 @@
     "pages/chessRoomBooking/chessRoomBooking",
     "pages/repair/prerepair",
     "pages/guestForm/guestForm",
-    "pages/parking/parking",
-    "pages/residentAuth/residentAuth"
+   
+    "pages/residentAuth/residentAuth",
+    "pages/agreement/agreement",
+    "pages/agreement/privacyPolicy"
   ],
   "window": {
     "navigationBarTextStyle": "black",

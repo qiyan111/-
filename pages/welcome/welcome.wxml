@@ -18,7 +18,20 @@
     <!-- 身份选择按钮 -->
     <view class="button-group">
       <button class="login-btn owner-login" bindtap="ownerLogin">业主登录</button>
-      
     </view>
+
+    <!-- 隐私协议区域 (调整为单行布局) -->
+    <view class="privacy-agreement">
+      <checkbox-group bindchange="handlePrivacyChange" class="privacy-checkbox-group">
+        <checkbox value="agree" checked="{{isPrivacyAgreed}}" class="privacy-checkbox"></checkbox>
+      </checkbox-group>
+      <view class="privacy-text-links">
+        <text class="privacy-text">我已阅读并同意</text>
+        <navigator url="/pages/agreement/agreement" class="privacy-link">《用户服务协议》</navigator>
+        <text class="privacy-text">和</text>
+        <navigator url="/pages/agreement/privacyPolicy" class="privacy-link">《隐私政策》</navigator>
+      </view>
+    </view>
+
   </view>
 </view> 

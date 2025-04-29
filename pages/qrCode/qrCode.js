@@ -48,11 +48,9 @@ Page({
   
   // 获取一码通二维码
   fetchQrCode() {
-    const that = this;
-    
     // 开始加载动画
     this.setData({
-      loading: true,
+      isLoading: true,
       errorMessage: '' // 重置错误信息
     });
     
@@ -66,19 +64,19 @@ Page({
         console.log('获取二维码成功:', data);
         // 保存二维码ID
         this.setData({
-          qrId: data.id,
+          qrId: data.id || data,
           errorMessage: '',
-          loading: false
+          isLoading: false
         });
         // 生成二维码图片
-        this.generateQrCodeImage(data.id);
+        this.generateQrCodeImage(data.id || data);
       })
       .catch((err) => {
         console.error('获取二维码失败:', err);
         
         // 停止加载动画
         this.setData({
-          loading: false
+          isLoading: false
         });
         
         let errorMessage = '获取二维码失败，请稍后重试';
@@ -95,7 +93,8 @@ Page({
         // 检查是否是因为未登录而失败
         if (err && typeof err === 'object' && err.message === '未登录') {
           this.setData({
-            isLoggedIn: false
+            isLoggedIn: false,
+            showAuthButton: true
           });
           return; // 不显示错误消息，因为已经显示了授权按钮
         }
@@ -143,7 +142,7 @@ Page({
       console.error('没有二维码ID，无法生成图片');
       this.setData({
         isLoading: false,
-        errorMsg: '获取二维码失败，请重试'
+        errorMessage: '获取二维码失败，请重试'
       });
       return;
     }
@@ -232,7 +231,14 @@ Page({
   
   // 刷新二维码
   refreshQrCode() {
+    wx.showLoading({
+      title: '刷新中...',
+      mask: true
+    });
     this.getQrCode();
+    setTimeout(() => {
+      wx.hideLoading();
+    }, 1500);
   },
   
   // 处理图片加载错误

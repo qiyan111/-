@@ -92,7 +92,7 @@ Page({
         'Accept': '*/*',
         'Host': 'property-func-dcwdljroao.cn-shenzhen.fcapp.run',
         'Connection': 'keep-alive',
-        'Authorization': token, // 使用从缓存获取的真实token
+        'Authorization':token, // 使用从缓存获取的真实token
         'communityId': selectedCommunity.id.toString() // 使用选择的小区 id，并确保转为字符串
       },
       data: {
@@ -111,15 +111,15 @@ Page({
               // wx.navigateBack();
             }
           });
-        } else if (res.statusCode === 200 && res.data && res.data.code === "401") {
+        } else if (res.statusCode === 200 && res.data && res.data.code === "40100") {
           // 特殊处理 401 错误
           wx.showToast({
             title: '登录已过期，请重新登录', // 更明确的提示
             icon: 'none',
             duration: 2000,
             complete: () => {
-              // 跳转到登录页
-               wx.navigateTo({ url: 'pages/welcome/welcome' });
+              // 跳转到登录页 (使用reLaunch清空页面栈)
+              wx.reLaunch({ url: "/pages/welcome/welcome" });
             }
           });
         } else {

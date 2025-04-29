@@ -2,7 +2,8 @@ const authService = require('../../utils/authService.js');
 
 Page({
   data: {
-    isLoading: false
+    isLoading: false,
+    isPrivacyAgreed: false
   },
   
   onLoad: function() {
@@ -13,6 +14,15 @@ Page({
   ownerLogin: function() {
     console.log('开始业主登录流程');
     
+    // 新增：检查用户是否已同意协议
+    if (!this.data.isPrivacyAgreed) {
+      wx.showToast({
+        title: '请先阅读并同意用户协议和隐私政策',
+        icon: 'none'
+      });
+      return; // 阻止后续流程
+    }
+
     // 设置加载状态
     this.setData({ isLoading: true });
     
@@ -59,6 +69,13 @@ Page({
         });
         this.setData({ isLoading: false });
       }
+    });
+  },
+
+  // 新增：处理隐私协议勾选状态变化
+  handlePrivacyChange: function(e) {
+    this.setData({
+      isPrivacyAgreed: e.detail.value.includes('agree')
     });
   }
 }) 

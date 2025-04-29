@@ -88,4 +88,54 @@ page {
 .admin-login {
   background-color: #eef5fe;
   color: #1989fa;
-} 
+}
+
+/* 新增：隐私协议区域样式 */
+.privacy-agreement {
+  display: flex; /* 使用 flex 布局 */
+  align-items: center; /* 垂直居中 */
+  margin-top: 30rpx; /* 与上方按钮的间距 */
+  width: 85%; /* 与按钮宽度保持一致 */
+  /* justify-content: center;  移除水平居中，让其自然左对齐 */
+}
+
+.privacy-checkbox-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* 防止 checkbox 被压缩 */
+}
+
+/* 调整 Checkbox 大小 (如果需要) */
+.privacy-checkbox .wx-checkbox-input {
+  width: 28rpx; 
+  height: 28rpx;
+}
+
+.privacy-text-links {
+  display: flex; /* 重新使用 flex 布局 */
+  align-items: center; /* 保持垂直居中 */
+  white-space: nowrap; /* 强制不换行 */
+  overflow: hidden; /* 如果内容溢出，隐藏而不是换行 */
+  text-overflow: ellipsis; /* 如果内容溢出，显示省略号 (可选) */
+  margin-left: 10rpx; 
+}
+
+.privacy-text,
+.privacy-link {
+  font-size: 24rpx; 
+  color: #888888; 
+  vertical-align: middle; 
+  flex-shrink: 0; /* 防止文本和链接被过度压缩 */
+}
+
+.privacy-link {
+  color: #1989fa; 
+  text-decoration: none; 
+  margin: 0 4rpx; 
+  /* display: inline-block; /* 添加此行确保链接有自己的空间 */
+}
+
+.privacy-text:last-child,
+.privacy-link:last-child {
+  margin-right: 0; /* 最后一个元素不需要右边距 */
+}
